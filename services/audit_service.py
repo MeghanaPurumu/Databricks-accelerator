@@ -1,0 +1,186 @@
+import streamlit as st
+import random
+import json
+from datetime import datetime, timedelta
+from typing import List
+from models.audit import AuditEntry
+from utils.db import get_spark
+
+INITIAL_AUDIT_LOGS = [
+    {
+        "id": "aud-001",
+        "governance_decision_id": "GD-10492",
+        "timestamp": datetime.now() - timedelta(days=5),
+        "user_email": "steward@enterprise.com",
+        "schema_name": "clinical",
+        "table_name": "PATIENTS",
+        "column_name": "tax_identifier",
+        "previous_tag": "None",
+        "new_tag": "pii:ssn",
+        "decision": "APPROVE",
+        "comments": "Matches format criteria perfectly and verified via patient lookup service.",
+        "ai_recommendation": "pii:ssn",
+        "confidence_score": 0.98,
+        "approval_duration": "42s",
+        "approval_method": "Manual Steward Review",
+        "approval_source": "Steward Portal Workspace UI"
+    },
+    {
+        "id": "aud-002",
+        "governance_decision_id": "GD-10493",
+        "timestamp": datetime.now() - timedelta(days=3),
+        "user_email": "compliance@enterprise.com",
+        "schema_name": "clinical",
+        "table_name": "ENCOUNTERS",
+        "column_name": "primary_diagnosis",
+        "previous_tag": "None",
+        "new_tag": "phi:icd10",
+        "decision": "APPROVE",
+        "comments": "Confirmed standard billing ICD10 formats.",
+        "ai_recommendation": "phi:icd10",
+        "confidence_score": 0.91,
+        "approval_duration": "18s",
+        "approval_method": "Manual Steward Review",
+        "approval_source": "Steward Portal Workspace UI"
+    },
+    {
+        "id": "aud-003",
+        "governance_decision_id": "GD-10494",
+        "timestamp": datetime.now() - timedelta(days=2),
+        "user_email": "steward@enterprise.com",
+        "schema_name": "hr_db",
+        "table_name": "salaries",
+        "column_name": "base_rate",
+        "previous_tag": "None",
+        "new_tag": "financial:salary",
+        "decision": "MODIFY",
+        "comments": "Changed suggestion from generic 'financial:numeric' to specific 'financial:salary'.",
+        "ai_recommendation": "financial:numeric",
+        "confidence_score": 0.85,
+        "approval_duration": "1m 12s",
+        "approval_method": "Manual Steward Review",
+        "approval_source": "Steward Portal Workspace UI"
+    }
+]
+
+class AuditService:
+    def __init__(self):
+        self.spark = get_spark()
+        self.table_name = "governance_audit"
+        
+        if self.spark:
+            try:
+                # Bootstrap the Delta table if it does not exist
+                self.spark.sql(f"DESCRIBE TABLE {self.table_name}")
+            except Exception:
+                st.info(f"Creating and bootstrapping Delta table '{self.table_name}'...")
+                bootstrap_data = []
+                for log in INITIAL_AUDIT_LOGS:
+                    copy_log = log.copy()
+                    # Convert timestamp object to string
+                    copy_log["timestamp"] = copy_log["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
+                    bootstrap_data.append(copy_log)
+                
+                df = self.spark.createDataFrame(bootstrap_data)
+                df.write.format("delta").mode("overwrite").saveAsTable(self.table_name)
+                st.success(f"Delta table '{self.table_name}' created successfully.")
+        else:
+            # Fallback to local session state
+            if "audit_logs" not in st.session_state:
+                st.session_state.audit_logs = [AuditEntry(**item) for item in INITIAL_AUDIT_LOGS]
+
+    def _row_to_entry(self, row) -> AuditEntry:
+        """Parses a Spark Row object back into a structured AuditEntry Pydantic model."""
+        r_dict = row.asDict()
+        # Parse timestamp string to datetime
+        if isinstance(r_dict["timestamp"], str):
+            r_dict["timestamp"] = datetime.strptime(r_dict["timestamp"][:19], "%Y-%m-%d %H:%M:%S")
+        return AuditEntry(**r_dict)
+
+    def get_audit_history(self) -> List[AuditEntry]:
+        """Fetch all audit records."""
+        if self.spark:
+            try:
+                df = self.spark.sql(f"SELECT * FROM {self.table_name} ORDER BY timestamp DESC")
+                rows = df.collect()
+                return [self._row_to_entry(row) for row in rows]
+            except Exception as e:
+                st.error(f"Error querying Delta table: {e}")
+                return []
+        else:
+            return st.session_state.audit_logs
+
+    def log_decision(
+        self, 
+        user_email: str, 
+        schema: str, 
+        table: str, 
+        column: str, 
+        previous_tag: str, 
+        new_tag: str, 
+        decision: str, 
+        comments: str,
+        ai_recommendation: str,
+        confidence_score: float,
+        approval_duration: str = "30s",
+        approval_method: str = "Manual Steward Review",
+        approval_source: str = "Steward Portal Workspace UI"
+    ) -> AuditEntry:
+        """Create and save a new audit log entry."""
+        audit_id = f"aud-{random.randint(100, 999)}"
+        decision_id = f"GD-{random.randint(10000, 99999)}"
+        timestamp_now = datetime.now()
+        
+        entry = AuditEntry(
+            id=audit_id,
+            governance_decision_id=decision_id,
+            timestamp=timestamp_now,
+            user_email=user_email,
+            schema_name=schema,
+            table_name=table,
+            column_name=column,
+            previous_tag=previous_tag,
+            new_tag=new_tag,
+            decision=decision,
+            comments=comments,
+            ai_recommendation=ai_recommendation,
+            confidence_score=confidence_score,
+            approval_duration=approval_duration,
+            approval_method=approval_method,
+            approval_source=approval_source
+        )
+        
+        if self.spark:
+            try:
+                escaped_comments = comments.replace("'", "\\'")
+                escaped_prev_tag = previous_tag.replace("'", "\\'")
+                escaped_new_tag = new_tag.replace("'", "\\'")
+                escaped_ai_rec = ai_recommendation.replace("'", "\\'")
+                
+                query = f"""
+                    INSERT INTO {self.table_name} VALUES (
+                        '{audit_id}',
+                        '{decision_id}',
+                        '{timestamp_now.strftime("%Y-%m-%d %H:%M:%S")}',
+                        '{user_email}',
+                        '{schema}',
+                        '{table}',
+                        '{column}',
+                        '{escaped_prev_tag}',
+                        '{escaped_new_tag}',
+                        '{decision}',
+                        '{escaped_comments}',
+                        '{escaped_ai_rec}',
+                        {confidence_score},
+                        '{approval_duration}',
+                        '{approval_method}',
+                        '{approval_source}'
+                    )
+                """
+                self.spark.sql(query)
+            except Exception as e:
+                st.error(f"Error logging decision to Delta: {e}")
+        else:
+            st.session_state.audit_logs.insert(0, entry)  # Prepend for reverse chronological order
+            
+        return entry
