@@ -1,3 +1,20 @@
+import sys
+import os
+
+# Safe check: if executed via bare python (e.g., 'python app.py'),
+# automatically relaunch ourselves inside the Streamlit runner.
+if __name__ == "__main__":
+    try:
+        from streamlit.runtime.scriptrunner import get_script_run_ctx
+        if get_script_run_ctx() is None:
+            import streamlit.web.cli as stcli
+            # Use Databricks Apps PORT environment variable or default to 8501
+            port = os.environ.get("PORT", "8501")
+            sys.argv = ["streamlit", "run", "app.py", "--server.port", port, "--server.address", "0.0.0.0"]
+            sys.exit(stcli.main())
+    except Exception:
+        pass
+
 import streamlit as st
 from config.settings import init_settings
 from services.governance_service import GovernanceService

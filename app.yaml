@@ -1,0 +1,5 @@
+# Databricks App Configuration
+command:
+  - streamlit
+  - run
+  - app.py
