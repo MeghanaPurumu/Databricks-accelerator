@@ -154,9 +154,11 @@ class DatabricksSQLWrapper:
             insert_query = f"INSERT INTO {table_name} ({cols_str}) VALUES ({vals_str})"
             self.sql(insert_query)
 
+_last_connection_error = None
+
 def is_databricks() -> bool:
     """Checks if we are running in an active Databricks environment with live connection."""
-    global _checked_databricks, _spark_session, _workspace_client, _warehouse_id
+    global _checked_databricks, _spark_session, _workspace_client, _warehouse_id, _last_connection_error
     if not _checked_databricks:
         # ── Spark Session check ────────────────────────────────────────────────
         # Only use active SparkSession if running inside a real Databricks Runtime (driver node)
@@ -177,20 +179,24 @@ def is_databricks() -> bool:
         try:
             from databricks.sdk import WorkspaceClient
             client = WorkspaceClient()
-            client.current_user.me()
             _workspace_client = client
             
             # Retrieve SQL Warehouse ID if configured or automatically discover it
             wh_id = os.environ.get("DATABRICKS_WAREHOUSE_ID")
             if not wh_id:
-                warehouses = list(client.warehouses.list())
-                if warehouses:
-                    wh_id = warehouses[0].id
+                try:
+                    warehouses = list(client.warehouses.list())
+                    if warehouses:
+                        wh_id = warehouses[0].id
+                except Exception as list_err:
+                    logger.debug(f"WorkspaceClient list warehouses failed: {list_err}")
+                    _last_connection_error = f"List warehouses failed: {list_err}"
                     
             _warehouse_id = wh_id
             logger.info(f"Live Databricks WorkspaceClient connection established. Warehouse: {_warehouse_id}")
         except Exception as e:
             logger.debug(f"WorkspaceClient connection failed: {e}")
+            _last_connection_error = str(e)
             _workspace_client = None
 
         _checked_databricks = True
@@ -212,3 +218,16 @@ def get_workspace_client():
     if is_databricks():
         return _workspace_client
     return None
+
+def get_connection_status():
+    """Returns connection diagnostics dictionary."""
+    global _checked_databricks, _workspace_client, _warehouse_id, _spark_session, _last_connection_error
+    is_databricks() # ensure checked
+    return {
+        "checked": _checked_databricks,
+        "connected": _workspace_client is not None or _spark_session is not None,
+        "has_client": _workspace_client is not None,
+        "has_spark": _spark_session is not None,
+        "warehouse_id": _warehouse_id,
+        "error": _last_connection_error
+    }

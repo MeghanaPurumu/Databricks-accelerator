@@ -33,6 +33,16 @@ auto_approval_threshold = st.slider(
 st.markdown("<hr style='border:0;border-top:1px solid #E5E7EB;margin:16px 0;'>", unsafe_allow_html=True)
 st.markdown("<div class='section-title'>Workspace Configuration</div>", unsafe_allow_html=True)
 
+from utils.db import get_connection_status
+status = get_connection_status()
+
+if status["connected"]:
+    st.success(f"Connected to Databricks Workspace: SQL Warehouse ID '{status['warehouse_id']}'")
+else:
+    st.error("Running in Mock Mode: No active Databricks Connection.")
+    if status["error"]:
+        st.warning(f"Last Connection Error: {status['error']}")
+
 refresh_interval = st.number_input(
     "Queue Refresh Interval (seconds)",
     min_value=10, max_value=3600,
