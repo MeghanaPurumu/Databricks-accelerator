@@ -165,13 +165,19 @@ class GovernanceService:
         
         if self.spark:
             try:
-                # Force recreation on start to ensure schema/content changes propagate to Delta
-                self.spark.sql(f"DROP TABLE IF EXISTS {self.table_name}")
-                self._create_table()
-            except Exception as e:
-                logger.error(f"Error dropping/recreating table: {e}")
-                self._create_table()
-        else:
+                # Check if Delta table already exists in catalog
+                self.spark.sql(f"DESCRIBE TABLE {self.table_name}")
+                logger.info(f"Connected to live Delta table: {self.table_name}")
+            except Exception:
+                # Table does not exist or is inaccessible; attempt to bootstrap
+                try:
+                    logger.info(f"Bootstrapping live Delta table: {self.table_name}")
+                    self._create_table()
+                except Exception as e:
+                    logger.warning(f"Failed to bootstrap live Delta table: {e}. Falling back to mock mode.")
+                    self.spark = None  # Disable Spark execution for this service instance
+                    
+        if not self.spark:
             # Fallback to local session_state mock
             if "pending_reviews" not in st.session_state:
                 st.session_state.pending_reviews = {

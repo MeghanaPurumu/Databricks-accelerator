@@ -1,10 +1,13 @@
 import streamlit as st
 import random
 import json
+import logging
 from datetime import datetime, timedelta
 from typing import List
 from models.audit import AuditEntry
 from utils.db import get_spark
+
+logger = logging.getLogger("audit_service")
 
 INITIAL_AUDIT_LOGS = [
     {
@@ -70,21 +73,26 @@ class AuditService:
         
         if self.spark:
             try:
-                # Bootstrap the Delta table if it does not exist
+                # Check if Delta table already exists in catalog
                 self.spark.sql(f"DESCRIBE TABLE {self.table_name}")
+                logger.info(f"Connected to live Delta table: {self.table_name}")
             except Exception:
-                st.info(f"Creating and bootstrapping Delta table '{self.table_name}'...")
-                bootstrap_data = []
-                for log in INITIAL_AUDIT_LOGS:
-                    copy_log = log.copy()
-                    # Convert timestamp object to string
-                    copy_log["timestamp"] = copy_log["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
-                    bootstrap_data.append(copy_log)
-                
-                df = self.spark.createDataFrame(bootstrap_data)
-                df.write.format("delta").mode("overwrite").saveAsTable(self.table_name)
-                st.success(f"Delta table '{self.table_name}' created successfully.")
-        else:
+                # Table does not exist; attempt to bootstrap it
+                try:
+                    logger.info(f"Bootstrapping live Delta table: {self.table_name}")
+                    bootstrap_data = []
+                    for log in INITIAL_AUDIT_LOGS:
+                        copy_log = log.copy()
+                        copy_log["timestamp"] = copy_log["timestamp"].strftime("%Y-%m-%d %H:%M:%S")
+                        bootstrap_data.append(copy_log)
+                    df = self.spark.createDataFrame(bootstrap_data)
+                    df.write.format("delta").mode("overwrite").saveAsTable(self.table_name)
+                    logger.info(f"Delta table '{self.table_name}' bootstrapped successfully.")
+                except Exception as e:
+                    logger.warning(f"Failed to bootstrap audit Delta table: {e}. Falling back to mock mode.")
+                    self.spark = None  # Disable Spark for this service instance
+
+        if not self.spark:
             # Fallback to local session state
             if "audit_logs" not in st.session_state:
                 st.session_state.audit_logs = [AuditEntry(**item) for item in INITIAL_AUDIT_LOGS]
