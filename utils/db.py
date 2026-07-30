@@ -159,22 +159,19 @@ def is_databricks() -> bool:
     global _checked_databricks, _spark_session, _workspace_client, _warehouse_id
     if not _checked_databricks:
         # ── Spark Session check ────────────────────────────────────────────────
-        _old_stderr = sys.stderr
-        try:
-            sys.stderr = open(os.devnull, "w")
-            from pyspark.sql import SparkSession
-            spark = SparkSession.builder.master("local").appName("GovernX-probe").getOrCreate()
-            spark.sql("SELECT 1")
-            _spark_session = spark
-            logger.info("Local Spark Session successfully initialized.")
-        except Exception:
-            _spark_session = None
-        finally:
+        # Only use active SparkSession if running inside a real Databricks Runtime (driver node)
+        if "DATABRICKS_RUNTIME_VERSION" in os.environ:
             try:
-                sys.stderr.close()
-            except Exception:
-                pass
-            sys.stderr = _old_stderr
+                from pyspark.sql import SparkSession
+                spark = SparkSession.builder.getOrCreate()
+                spark.sql("SELECT 1")
+                _spark_session = spark
+                logger.info("Real Databricks Spark Session successfully initialized.")
+            except Exception as e:
+                logger.warning(f"Failed to connect to local cluster SparkSession: {e}")
+                _spark_session = None
+        else:
+            _spark_session = None
 
         # ── Databricks SDK WorkspaceClient check ──────────────────────────────
         try:
