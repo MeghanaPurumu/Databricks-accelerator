@@ -69,10 +69,20 @@ class DatabricksSQLWrapper:
         if stmt.endswith(";"):
             stmt = stmt[:-1]
             
-        response = self.client.statement_execution.execute_statement(
-            statement=stmt,
-            warehouse_id=self.warehouse_id
-        )
+        # Scope the query context using optional environment catalog/schema
+        catalog_name = os.environ.get("DATABRICKS_CATALOG")
+        schema_name = os.environ.get("DATABRICKS_SCHEMA")
+        
+        kwargs = {
+            "statement": stmt,
+            "warehouse_id": self.warehouse_id
+        }
+        if catalog_name:
+            kwargs["catalog"] = catalog_name
+        if schema_name:
+            kwargs["schema"] = schema_name
+            
+        response = self.client.statement_execution.execute_statement(**kwargs)
         
         import time
         statement_id = response.statement_id
