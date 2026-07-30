@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import json
 import logging
@@ -158,137 +159,161 @@ INITIAL_PENDING_REVIEWS = [
     }
 ]
 
+# ── AI Classification rules: column name patterns → (tag, category, confidence, priority) ──
+COLUMN_CLASSIFICATION_RULES = [
+    (["ssn", "social_security", "tax_id", "tax_identifier", "national_id"], "pii:ssn",         "PII",       0.97, "Critical", "PII - Social Security Number",       "SSN keyword and format pattern matched."),
+    (["phone", "mobile", "cell", "telephone", "contact_number"],           "pii:phone",        "PII",       0.92, "Low",      "PII - Contact Phone Number",          "Phone number keyword matched."),
+    (["email", "email_address", "mail"],                                    "pii:email",        "PII",       0.94, "Medium",   "PII - Email Address",                 "Email keyword matched."),
+    (["first_name", "last_name", "full_name", "patient_name", "name"],     "pii:name",         "PII",       0.89, "High",     "PII - Personal Name",                 "Name keyword matched."),
+    (["dob", "date_of_birth", "birth_date", "birthdate"],                  "pii:dob",          "PII",       0.96, "High",     "PII - Date of Birth",                 "Date of birth pattern matched."),
+    (["address", "street", "city", "zip", "postal_code", "location"],      "pii:address",      "PII",       0.88, "Medium",   "PII - Physical Address",              "Address/location keyword matched."),
+    (["diagnosis", "icd", "icd_code", "icd10", "condition", "disease"],    "phi:diagnosis",    "PHI",       0.93, "Critical", "PHI - Medical Diagnosis Code",        "ICD diagnosis keyword matched."),
+    (["medication", "drug", "prescription", "dosage", "rx", "ndc"],        "phi:prescription", "PHI",       0.91, "High",     "PHI - Prescription Information",      "Medication/prescription keyword matched."),
+    (["mrn", "patient_id", "member_id", "encounter_id", "visit_id"],       "phi:patient_id",   "PHI",       0.95, "Critical", "PHI - Patient Identifier",            "Patient identifier keyword matched."),
+    (["lab", "result", "test_result", "observation", "specimen"],          "phi:lab_result",   "PHI",       0.87, "High",     "PHI - Lab/Clinical Observation",      "Lab result keyword matched."),
+    (["claim_amount", "charge", "payment", "amount", "billed", "cost"],    "financial:amount", "Financial", 0.94, "Medium",   "PCI/Financial - Billing Charge",      "Financial billing amount pattern matched."),
+    (["account", "bank", "routing", "credit_card", "card_number"],         "financial:account","Financial", 0.96, "High",     "PCI - Financial Account Number",      "Payment/banking keyword matched."),
+    (["npi", "provider_id", "physician_id", "dea_number"],                 "phi:provider_id",  "PHI",       0.90, "High",     "PHI - Provider Identifier",           "Provider/physician ID keyword matched."),
+    (["insurance", "payer", "plan_id", "group_number", "policy_number"],   "pii:insurance",    "PII",       0.86, "Medium",   "PII - Insurance Identifier",          "Insurance plan keyword matched."),
+]
+
+def _classify_column(col_name: str, data_type: str):
+    """Rule-based AI classifier: returns (tag, category, confidence, priority, native_class, explanation)."""
+    col_lower = col_name.lower()
+    for keywords, tag, category, conf, priority, native_class, explanation in COLUMN_CLASSIFICATION_RULES:
+        if any(kw in col_lower for kw in keywords):
+            return tag, category, conf, priority, native_class, explanation
+    # Generic fallback for unrecognized columns
+    return None, "Unknown", 0.0, "Low", "Unclassified", "No matching governance pattern found."
+
 class GovernanceService:
     def __init__(self):
         self.spark = get_spark()
-        self.table_name = "dev.synthetic_data.pending_classifications"
-        
-        if self.spark:
-            try:
-                # Check if Delta table already exists in catalog
-                self.spark.sql(f"DESCRIBE TABLE {self.table_name}")
-                logger.info(f"Connected to live Delta table: {self.table_name}")
-            except Exception:
-                # Table does not exist or is inaccessible; attempt to bootstrap
+        self.live_catalog   = os.environ.get("DATABRICKS_CATALOG", "dev")
+        self.live_schema    = os.environ.get("DATABRICKS_SCHEMA",  "synthetic_data")
+        self.audit_table    = f"{self.live_catalog}.{self.live_schema}.governance_audit"
+
+        # Only seed session state once per session
+        if "pending_reviews" not in st.session_state:
+            items = self._scan_live_catalog() if self.spark else []
+            if not items:
+                items = [ClassificationItem(**item) for item in INITIAL_PENDING_REVIEWS]
+            st.session_state.pending_reviews = {item.id: item for item in items}
+
+    # ── Live catalog scanner ──────────────────────────────────────────────────
+    def _scan_live_catalog(self) -> List[ClassificationItem]:
+        """
+        Runs SHOW TABLES IN dev.synthetic_data, then DESCRIBE TABLE on each table
+        to enumerate every column, generates a ClassificationItem for each column
+        that has a governance-relevant name pattern.
+        """
+        items = []
+        now = datetime.now()
+        try:
+            tables_df = self.spark.sql(f"SHOW TABLES IN {self.live_catalog}.{self.live_schema}")
+            tables = tables_df.collect()
+            logger.info(f"Discovered {len(tables)} tables in {self.live_catalog}.{self.live_schema}")
+
+            for t_row in tables:
+                t_dict = t_row.asDict()
+                table_name = t_dict.get("tableName") or t_dict.get("table_name", "")
+                if not table_name:
+                    continue
+
                 try:
-                    logger.info(f"Bootstrapping live Delta table: {self.table_name}")
-                    self._create_table()
-                except Exception as e:
-                    logger.warning(f"Failed to bootstrap live Delta table: {e}. Falling back to mock mode.")
-                    self.spark = None  # Disable Spark execution for this service instance
-                    
-        if not self.spark:
-            # Fallback to local session_state mock
-            if "pending_reviews" not in st.session_state:
-                st.session_state.pending_reviews = {
-                    item["id"]: ClassificationItem(**item) for item in INITIAL_PENDING_REVIEWS
-                }
+                    cols_df = self.spark.sql(
+                        f"DESCRIBE TABLE {self.live_catalog}.{self.live_schema}.{table_name}"
+                    )
+                    for c_row in cols_df.collect():
+                        c_dict   = c_row.asDict()
+                        col_name = c_dict.get("col_name", "")
+                        data_type = c_dict.get("data_type", "STRING")
+                        if not col_name or col_name.startswith("#") or not data_type:
+                            continue
 
-    def _create_table(self):
-        """Creates the Delta table and inserts initial healthcare model classifications."""
-        bootstrap_data = []
-        for item in INITIAL_PENDING_REVIEWS:
-            copy_item = item.copy()
-            copy_item["similar_columns"] = json.dumps(copy_item["similar_columns"])
-            copy_item["sample_values"] = json.dumps(copy_item["sample_values"])
-            copy_item["similar_columns_metrics"] = json.dumps(copy_item["similar_columns_metrics"])
-            copy_item["governance_timeline"] = json.dumps(copy_item["governance_timeline"])
-            bootstrap_data.append(copy_item)
-        
-        df = self.spark.createDataFrame(bootstrap_data)
-        df.write.format("delta").mode("overwrite").saveAsTable(self.table_name)
+                        tag, category, conf, priority, native_class, explanation = \
+                            _classify_column(col_name, data_type)
 
-    def _row_to_item(self, row) -> ClassificationItem:
-        """Parses a Spark Row object back into a structured Pydantic ClassificationItem model."""
-        r_dict = row.asDict()
-        for k in ["similar_columns", "sample_values", "similar_columns_metrics", "governance_timeline"]:
-            if isinstance(r_dict.get(k), str):
-                try:
-                    r_dict[k] = json.loads(r_dict[k])
-                except Exception:
-                    r_dict[k] = []
-        return ClassificationItem(**r_dict)
+                        if tag is None:
+                            continue  # Skip columns with no governance relevance
 
+                        item_id = f"live-{self.live_schema}-{table_name}-{col_name}".lower().replace(" ", "_")
+                        items.append(ClassificationItem(
+                            id=item_id,
+                            schema_name=self.live_schema,
+                            table_name=table_name,
+                            column_name=col_name,
+                            data_type=data_type,
+                            suggested_tag=tag,
+                            native_classification=native_class,
+                            ontology_match="",
+                            similar_columns=[],
+                            confidence_score=conf,
+                            supervisor_recommendation="Auto-Approve" if conf >= 0.95 else "Review Recommended",
+                            ai_explanation=explanation,
+                            sample_values=[],
+                            status="PENDING",
+                            submitted_time=now,
+                            priority=priority,
+                            category=category,
+                            domain=self.live_schema.replace("_", " ").title(),
+                            concept_match="",
+                            concept_confidence=conf,
+                            similar_columns_metrics=[],
+                            governance_timeline=[
+                                {"stage": "Column Discovered in Live Catalog",
+                                 "timestamp": now.strftime("%Y-%m-%d %H:%M")},
+                                {"stage": "AI Classified",
+                                 "timestamp": now.strftime("%Y-%m-%d %H:%M")}
+                            ]
+                        ))
+                except Exception as col_err:
+                    logger.warning(f"Could not describe table {table_name}: {col_err}")
+
+        except Exception as e:
+            logger.warning(f"Live catalog scan failed: {e}. Falling back to mock data.")
+
+        logger.info(f"Live scan complete: {len(items)} governance-relevant columns found.")
+        return items
+
+    # ── Data access ───────────────────────────────────────────────────────────
     def get_pending_classifications(self) -> List[ClassificationItem]:
-        """Fetch all classifications in the queue."""
-        if self.spark:
-            try:
-                df = self.spark.sql(f"SELECT * FROM {self.table_name}")
-                rows = df.collect()
-                return [self._row_to_item(row) for row in rows]
-            except Exception as e:
-                st.error(f"Error querying Delta table: {e}")
-                return []
-        else:
-            return list(st.session_state.pending_reviews.values())
+        """Fetch all classifications in the queue from session state."""
+        return list(st.session_state.pending_reviews.values())
 
     def get_classification_by_id(self, item_id: str) -> Optional[ClassificationItem]:
         """Fetch a specific classification item by unique request ID."""
-        if self.spark:
-            try:
-                df = self.spark.sql(f"SELECT * FROM {self.table_name} WHERE id = '{item_id}'")
-                rows = df.collect()
-                if rows:
-                    return self._row_to_item(rows[0])
-                return None
-            except Exception as e:
-                st.error(f"Error querying classification by ID: {e}")
-                return None
-        else:
-            return st.session_state.pending_reviews.get(item_id)
+        return st.session_state.pending_reviews.get(item_id)
 
     def update_status(self, item_id: str, status: str, suggested_tag: Optional[str] = None) -> bool:
-        """Update the status of a classification recommendation."""
+        """Update the status of a classification recommendation and optionally apply the tag in live Unity Catalog."""
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
-        
-        if self.spark:
-            try:
-                item = self.get_classification_by_id(item_id)
-                if not item:
-                    return False
-                
-                item.status = status.upper()
-                if suggested_tag:
-                    item.suggested_tag = suggested_tag
-                
-                item.governance_timeline.append({
-                    "stage": f"Steward Decision: {status.upper()}",
-                    "timestamp": now_str
-                })
-                if status.upper() == "APPROVED":
-                    item.governance_timeline.append({"stage": "Policy Applied (ABAC & Masking)", "timestamp": now_str})
-                    item.governance_timeline.append({"stage": "Governed View Updated", "timestamp": now_str})
-                
-                ser_timeline = json.dumps(item.governance_timeline)
-                escaped_tag = item.suggested_tag.replace("'", "\\'")
-                
-                query = f"""
-                    UPDATE {self.table_name}
-                    SET status = '{status.upper()}',
-                        suggested_tag = '{escaped_tag}',
-                        governance_timeline = '{ser_timeline}'
-                    WHERE id = '{item_id}'
-                """
-                self.spark.sql(query)
-                return True
-            except Exception as e:
-                st.error(f"Error writing updates to Delta: {e}")
-                return False
-        else:
-            if item_id in st.session_state.pending_reviews:
-                item = st.session_state.pending_reviews[item_id]
-                item.status = status.upper()
-                if suggested_tag:
-                    item.suggested_tag = suggested_tag
-                
-                item.governance_timeline.append({
-                    "stage": f"Steward Decision: {status.upper()}",
-                    "timestamp": now_str
-                })
-                if status.upper() == "APPROVED":
-                    item.governance_timeline.append({"stage": "Policy Applied (ABAC & Masking)", "timestamp": now_str})
-                    item.governance_timeline.append({"stage": "Governed View Updated", "timestamp": now_str})
-                    
-                st.session_state.pending_reviews[item_id] = item
-                return True
+
+        if item_id not in st.session_state.pending_reviews:
             return False
+
+        item = st.session_state.pending_reviews[item_id]
+        item.status = status.upper()
+        if suggested_tag:
+            item.suggested_tag = suggested_tag
+
+        item.governance_timeline.append({
+            "stage": f"Steward Decision: {status.upper()}",
+            "timestamp": now_str
+        })
+        if status.upper() == "APPROVED":
+            item.governance_timeline.append({"stage": "Policy Applied (ABAC & Masking)", "timestamp": now_str})
+            item.governance_timeline.append({"stage": "Governed View Updated", "timestamp": now_str})
+            # Apply the tag to the real table in Unity Catalog
+            if self.spark:
+                try:
+                    fq_table = f"{self.live_catalog}.{self.live_schema}.{item.table_name}"
+                    self.spark.sql(
+                        f"ALTER TABLE {fq_table} ALTER COLUMN {item.column_name} SET TAGS ('{item.suggested_tag}')"
+                    )
+                    logger.info(f"Tag '{item.suggested_tag}' applied to {fq_table}.{item.column_name}")
+                except Exception as e:
+                    logger.warning(f"Could not apply tag in Unity Catalog: {e}")
+
+        st.session_state.pending_reviews[item_id] = item
+        return True
