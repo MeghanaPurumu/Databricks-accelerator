@@ -1,9 +1,12 @@
 import streamlit as st
 import json
+import logging
 from datetime import datetime, timedelta
 from typing import List, Optional
 from models.classification import ClassificationItem
 from utils.db import get_spark, is_databricks
+
+logger = logging.getLogger("governance_service")
 
 # Seeding pending classifications directly from the Healthcare Enterprise Data Model
 INITIAL_PENDING_REVIEWS = [
