@@ -34,6 +34,7 @@ GovernanceService()
 # ---------- Navigation pages ----------
 dashboard_page           = st.Page("pages/dashboard.py",               title="Dashboard",                default=True)
 review_queue_page        = st.Page("pages/review_queue.py",            title="Review Queue")
+orchestrator_page        = st.Page("pages/agent_orchestration.py",     title="Agent Orchestrator")
 classification_page      = st.Page("pages/classification_explorer.py", title="Classification Explorer")
 search_page              = st.Page("pages/search.py",                  title="Search Assets")
 qa_page                  = st.Page("pages/governance_qa.py",           title="Governance Q&A")
@@ -46,6 +47,7 @@ pg = st.navigation({
     "Governance Workbench": [
         dashboard_page,
         review_queue_page,
+        orchestrator_page,
         classification_page,
         search_page,
         qa_page

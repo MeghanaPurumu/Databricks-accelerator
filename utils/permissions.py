@@ -11,7 +11,9 @@ ROLE_PERMISSIONS = {
         "view_audit": True,
         "view_search": True,
         "ask_qa": True,
-        "manage_settings": True
+        "manage_settings": True,
+        "view_orchestrator": True,
+        "trigger_orchestrator": True
     },
     "Compliance Officer": {
         "view_dashboard": True,
@@ -20,7 +22,9 @@ ROLE_PERMISSIONS = {
         "view_audit": True,
         "view_search": True,
         "ask_qa": True,
-        "manage_settings": True
+        "manage_settings": True,
+        "view_orchestrator": True,
+        "trigger_orchestrator": True
     },
     "Data Engineer": {
         "view_dashboard": True,
@@ -29,7 +33,9 @@ ROLE_PERMISSIONS = {
         "view_audit": True,
         "view_search": True,
         "ask_qa": True,
-        "manage_settings": False
+        "manage_settings": False,
+        "view_orchestrator": True,
+        "trigger_orchestrator": True
     },
     "Read-only Analyst": {
         "view_dashboard": True,
@@ -38,7 +44,9 @@ ROLE_PERMISSIONS = {
         "view_audit": True,
         "view_search": True,
         "ask_qa": True,
-        "manage_settings": False
+        "manage_settings": False,
+        "view_orchestrator": True,
+        "trigger_orchestrator": False
     }
 }
 
