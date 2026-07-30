@@ -161,7 +161,7 @@ INITIAL_PENDING_REVIEWS = [
 class GovernanceService:
     def __init__(self):
         self.spark = get_spark()
-        self.table_name = "pending_classifications"
+        self.table_name = "dev.synthetic_data.pending_classifications"
         
         if self.spark:
             try:

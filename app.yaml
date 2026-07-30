@@ -3,3 +3,8 @@ command:
   - streamlit
   - run
   - app.py
+env:
+  - name: DATABRICKS_CATALOG
+    value: "dev"
+  - name: DATABRICKS_SCHEMA
+    value: "synthetic_data"

@@ -69,7 +69,7 @@ INITIAL_AUDIT_LOGS = [
 class AuditService:
     def __init__(self):
         self.spark = get_spark()
-        self.table_name = "governance_audit"
+        self.table_name = "dev.synthetic_data.governance_audit"
         
         if self.spark:
             try:

@@ -1,8 +1,12 @@
+import os
 import streamlit as st
 import logging
 from utils.db import get_spark, get_workspace_client
 
 logger = logging.getLogger("unity_catalog_service")
+
+LIVE_CATALOG = os.environ.get("DATABRICKS_CATALOG", "dev")
+LIVE_SCHEMA  = os.environ.get("DATABRICKS_SCHEMA",  "synthetic_data")
 
 # Seeding Unity Catalog columns from the Healthcare Enterprise Data Model
 INITIAL_UC_CATALOG = {
@@ -54,7 +58,66 @@ class UnityCatalogService:
         self.client = get_workspace_client()
         
         if "unity_catalog" not in st.session_state:
-            st.session_state.unity_catalog = INITIAL_UC_CATALOG.copy()
+            # Try to populate from the live dev.synthetic_data schema
+            live_catalog = self._discover_live_catalog()
+            if live_catalog:
+                st.session_state.unity_catalog = live_catalog
+                logger.info(f"Populated unity_catalog from live schema {LIVE_CATALOG}.{LIVE_SCHEMA}: {len(live_catalog)} columns discovered.")
+            else:
+                st.session_state.unity_catalog = INITIAL_UC_CATALOG.copy()
+
+    def _discover_live_catalog(self) -> dict:
+        """
+        Scan dev.synthetic_data tables and columns via SHOW TABLES + DESCRIBE TABLE.
+        Returns a unity_catalog dict keyed by schema.table.column.
+        Falls back to empty dict on any error.
+        """
+        if not self.spark:
+            return {}
+        catalog = {}
+        try:
+            tables_df = self.spark.sql(f"SHOW TABLES IN {LIVE_CATALOG}.{LIVE_SCHEMA}")
+            tables = tables_df.collect()
+            for row in tables:
+                table_name = row.asDict().get("tableName") or row.asDict().get("table_name", "")
+                if not table_name:
+                    continue
+                try:
+                    cols_df = self.spark.sql(f"DESCRIBE TABLE {LIVE_CATALOG}.{LIVE_SCHEMA}.{table_name}")
+                    for col_row in cols_df.collect():
+                        col_dict = col_row.asDict()
+                        col_name = col_dict.get("col_name", "")
+                        data_type = col_dict.get("data_type", "")
+                        # Skip partition headers and empty rows
+                        if not col_name or col_name.startswith("#") or not data_type:
+                            continue
+                        key = f"{LIVE_SCHEMA}.{table_name}.{col_name}"
+                        catalog[key] = {
+                            "tag": "",
+                            "masking_policy": "None",
+                            "abac_policy": "None",
+                            "class_date": "",
+                            "last_reviewer": "",
+                            "status": "Unclassified",
+                            "data_type": data_type
+                        }
+                except Exception as col_err:
+                    logger.warning(f"Could not describe {table_name}: {col_err}")
+        except Exception as e:
+            logger.warning(f"Could not discover live catalog from {LIVE_CATALOG}.{LIVE_SCHEMA}: {e}")
+        return catalog
+
+    def get_live_table_list(self):
+        """Returns list of real tables from dev.synthetic_data, or empty list on error."""
+        if not self.spark:
+            return []
+        try:
+            df = self.spark.sql(f"SHOW TABLES IN {LIVE_CATALOG}.{LIVE_SCHEMA}")
+            rows = df.collect()
+            return [r.asDict().get("tableName") or r.asDict().get("table_name", "") for r in rows]
+        except Exception as e:
+            logger.warning(f"Could not list tables: {e}")
+            return []
 
     def get_column_metadata(self, schema: str, table: str, column: str):
         """Retrieve governance metadata (tags, masking policy, ABAC rules) for a column."""
@@ -71,7 +134,9 @@ class UnityCatalogService:
         
         if self.spark:
             try:
-                query = f"ALTER TABLE {schema}.{table} ALTER COLUMN {column} SET TAGS ('{tag}')"
+                # Use fully-qualified table name in case schema context differs
+                qualified = f"{LIVE_CATALOG}.{schema}.{table}"
+                query = f"ALTER TABLE {qualified} ALTER COLUMN {column} SET TAGS ('{tag}')"
                 self.spark.sql(query)
                 logger.info(f"Successfully applied tag {tag} via Spark SQL DDL.")
             except Exception as e:
@@ -115,18 +180,22 @@ class UnityCatalogService:
         
         for key, meta in st.session_state.unity_catalog.items():
             parts = key.split(".")
+            if len(parts) < 3:
+                continue
             schema, table, column = parts[0], parts[1], parts[2]
             
-            if q in schema.lower() or q in table.lower() or q in column.lower() or q in meta["tag"].lower():
+            if q in schema.lower() or q in table.lower() or q in column.lower() or q in meta.get("tag", "").lower():
                 results.append({
                     "schema": schema,
                     "table": table,
                     "column": column,
-                    "tag": meta["tag"],
-                    "masking_policy": meta["masking_policy"],
-                    "abac_policy": meta["abac_policy"],
-                    "class_date": meta["class_date"],
-                    "last_reviewer": meta["last_reviewer"],
-                    "status": meta["status"]
+                    "tag": meta.get("tag", ""),
+                    "masking_policy": meta.get("masking_policy", "None"),
+                    "abac_policy": meta.get("abac_policy", "None"),
+                    "class_date": meta.get("class_date", ""),
+                    "last_reviewer": meta.get("last_reviewer", ""),
+                    "status": meta.get("status", "Unclassified")
                 })
         return results
+
+
