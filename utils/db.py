@@ -70,7 +70,7 @@ class DatabricksSQLWrapper:
             stmt = stmt[:-1]
             
         response = self.client.statement_execution.execute_statement(
-            sql_statement=stmt,
+            statement=stmt,
             warehouse_id=self.warehouse_id
         )
         
