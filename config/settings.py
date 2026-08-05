@@ -4,7 +4,7 @@ import streamlit as st
 DEFAULT_CONFIDENCE_THRESHOLD = 0.70
 DEFAULT_AUTO_APPROVAL_THRESHOLD = 0.95
 DEFAULT_REFRESH_INTERVAL = 30  # seconds
-DEFAULT_SCHEMA = "clinical"
+DEFAULT_SCHEMA = "brz"
 
 def init_settings():
     """Initialize app-wide settings in Streamlit session state if they do not exist."""

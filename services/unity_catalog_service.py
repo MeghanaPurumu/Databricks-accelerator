@@ -6,7 +6,7 @@ from utils.db import get_spark, get_workspace_client
 logger = logging.getLogger("unity_catalog_service")
 
 LIVE_CATALOG = os.environ.get("DATABRICKS_CATALOG", "dev")
-LIVE_SCHEMA  = os.environ.get("DATABRICKS_SCHEMA",  "synthetic_data")
+LIVE_SCHEMA  = os.environ.get("DATABRICKS_SCHEMA",  "brz")
 
 # Seeding Unity Catalog columns from the Healthcare Enterprise Data Model
 INITIAL_UC_CATALOG = {
@@ -140,20 +140,8 @@ class UnityCatalogService:
                 self.spark.sql(query)
                 logger.info(f"Successfully applied tag {tag} via Spark SQL DDL.")
             except Exception as e:
-                logger.warning(f"Failed to apply tag via SQL DDL: {e}. Trying SDK Client...")
-                
-                if self.client:
-                    try:
-                        self.client.catalog.update_column_tag(
-                            schema_name=schema,
-                            table_name=table,
-                            column_name=column,
-                            tag_name=tag
-                        )
-                        logger.info("Successfully applied tag via Databricks SDK REST Client.")
-                    except Exception as sdk_err:
-                        logger.error(f"Failed to apply tag via Databricks SDK: {sdk_err}")
-                        return False
+                logger.error(f"Failed to apply tag via SQL DDL: {e}")
+                return False
         
         # Keep mock state synced so changes are visible locally
         if key not in st.session_state.unity_catalog:

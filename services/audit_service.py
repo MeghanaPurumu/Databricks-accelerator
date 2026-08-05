@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import random
 import json
@@ -69,7 +70,9 @@ INITIAL_AUDIT_LOGS = [
 class AuditService:
     def __init__(self):
         self.spark = get_spark()
-        self.table_name = "dev.synthetic_data.governance_audit"
+        catalog = os.environ.get("DATABRICKS_CATALOG", "dev")
+        schema = os.environ.get("DATABRICKS_SCHEMA", "brz")
+        self.table_name = f"{catalog}.{schema}.governance_audit"
         
         if self.spark:
             try:
