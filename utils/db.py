@@ -201,7 +201,7 @@ def is_databricks() -> bool:
 
         _checked_databricks = True
 
-    return _spark_session is not None or (_workspace_client is not None and _warehouse_id is not None)
+    return _spark_session is not None or _workspace_client is not None
 
 def get_spark():
     """Retrieve active SparkSession, custom SQL execution wrapper, or None."""

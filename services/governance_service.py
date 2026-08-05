@@ -5,7 +5,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import List, Optional
 from models.classification import ClassificationItem
-from utils.db import get_spark, is_databricks
+from utils.db import get_spark, get_workspace_client, is_databricks
 
 logger = logging.getLogger("governance_service")
 
@@ -188,14 +188,15 @@ def _classify_column(col_name: str, data_type: str):
 
 class GovernanceService:
     def __init__(self):
-        self.spark = get_spark()
-        self.live_catalog   = os.environ.get("DATABRICKS_CATALOG", "dev")
-        self.live_schema    = os.environ.get("DATABRICKS_SCHEMA",  "synthetic_data")
-        self.audit_table    = f"{self.live_catalog}.{self.live_schema}.governance_audit"
+        self.spark  = get_spark()
+        self.client = get_workspace_client()
+        self.live_catalog = os.environ.get("DATABRICKS_CATALOG", "dev")
+        self.live_schema  = os.environ.get("DATABRICKS_SCHEMA",  "brz")
+        self.audit_table  = f"{self.live_catalog}.{self.live_schema}.governance_audit"
 
         # Only seed session state once per session
         if "pending_reviews" not in st.session_state:
-            items = self._scan_live_catalog() if self.spark else []
+            items = self._scan_live_catalog() if (self.client or self.spark) else []
             if not items:
                 items = [ClassificationItem(**item) for item in INITIAL_PENDING_REVIEWS]
             st.session_state.pending_reviews = {item.id: item for item in items}
@@ -203,77 +204,98 @@ class GovernanceService:
     # ── Live catalog scanner ──────────────────────────────────────────────────
     def _scan_live_catalog(self) -> List[ClassificationItem]:
         """
-        Runs SHOW TABLES IN dev.synthetic_data, then DESCRIBE TABLE on each table
-        to enumerate every column, generates a ClassificationItem for each column
-        that has a governance-relevant name pattern.
+        Enumerates every column in LIVE_CATALOG.LIVE_SCHEMA, generates a
+        ClassificationItem for each governance-relevant column.
+        Tries Databricks SDK metadata first, then falls back to Spark SQL.
         """
         items = []
         now = datetime.now()
-        try:
-            tables_df = self.spark.sql(f"SHOW TABLES IN {self.live_catalog}.{self.live_schema}")
-            tables = tables_df.collect()
-            logger.info(f"Discovered {len(tables)} tables in {self.live_catalog}.{self.live_schema}")
 
-            for t_row in tables:
-                t_dict = t_row.asDict()
-                table_name = t_dict.get("tableName") or t_dict.get("table_name", "")
-                if not table_name:
+        def _process_columns(table_name: str, column_iter):
+            """Build ClassificationItems from an iterable of (col_name, data_type) tuples."""
+            for col_name, data_type in column_iter:
+                if not col_name or col_name.startswith("#"):
                     continue
+                tag, category, conf, priority, native_class, explanation = \
+                    _classify_column(col_name, data_type or "STRING")
+                if tag is None:
+                    continue
+                item_id = f"live-{self.live_schema}-{table_name}-{col_name}".lower().replace(" ", "_")
+                items.append(ClassificationItem(
+                    id=item_id,
+                    schema_name=self.live_schema,
+                    table_name=table_name,
+                    column_name=col_name,
+                    data_type=data_type or "STRING",
+                    suggested_tag=tag,
+                    native_classification=native_class,
+                    ontology_match="",
+                    similar_columns=[],
+                    confidence_score=conf,
+                    supervisor_recommendation="Auto-Approve" if conf >= 0.95 else "Review Recommended",
+                    ai_explanation=explanation,
+                    sample_values=[],
+                    status="PENDING",
+                    submitted_time=now,
+                    priority=priority,
+                    category=category,
+                    domain=self.live_schema.replace("_", " ").title(),
+                    concept_match="",
+                    concept_confidence=conf,
+                    similar_columns_metrics=[],
+                    governance_timeline=[
+                        {"stage": "Column Discovered in Live Catalog",
+                         "timestamp": now.strftime("%Y-%m-%d %H:%M")},
+                        {"stage": "AI Classified",
+                         "timestamp": now.strftime("%Y-%m-%d %H:%M")}
+                    ]
+                ))
 
-                try:
-                    cols_df = self.spark.sql(
-                        f"DESCRIBE TABLE {self.live_catalog}.{self.live_schema}.{table_name}"
-                    )
-                    for c_row in cols_df.collect():
-                        c_dict   = c_row.asDict()
-                        col_name = c_dict.get("col_name", "")
-                        data_type = c_dict.get("data_type", "STRING")
-                        if not col_name or col_name.startswith("#") or not data_type:
-                            continue
+        # 1. SDK-first: uses WorkspaceClient metadata API — no SQL Warehouse needed
+        if self.client:
+            try:
+                tables = list(self.client.tables.list(
+                    catalog_name=self.live_catalog,
+                    schema_name=self.live_schema
+                ))
+                logger.info(f"[SDK] Discovered {len(tables)} tables in {self.live_catalog}.{self.live_schema}")
+                for t in tables:
+                    if not t.columns:
+                        continue
+                    col_iter = [(col.name, col.type_text or str(col.type_name)) for col in t.columns]
+                    _process_columns(t.name, col_iter)
+                logger.info(f"[SDK] Scan complete: {len(items)} governance-relevant columns found.")
+                return items
+            except Exception as sdk_err:
+                logger.warning(f"[SDK] Live catalog scan failed: {sdk_err}. Falling back to Spark SQL...")
+                items.clear()
 
-                        tag, category, conf, priority, native_class, explanation = \
-                            _classify_column(col_name, data_type)
+        # 2. Spark SQL fallback: works if SQL Warehouse or local Spark runtime is available
+        if self.spark:
+            try:
+                tables_df = self.spark.sql(f"SHOW TABLES IN {self.live_catalog}.{self.live_schema}")
+                tables = tables_df.collect()
+                logger.info(f"[SQL] Discovered {len(tables)} tables in {self.live_catalog}.{self.live_schema}")
+                for t_row in tables:
+                    t_dict = t_row.asDict()
+                    table_name = t_dict.get("tableName") or t_dict.get("table_name", "")
+                    if not table_name:
+                        continue
+                    try:
+                        cols_df = self.spark.sql(
+                            f"DESCRIBE TABLE {self.live_catalog}.{self.live_schema}.{table_name}"
+                        )
+                        col_iter = [
+                            (c.asDict().get("col_name", ""), c.asDict().get("data_type", "STRING"))
+                            for c in cols_df.collect()
+                        ]
+                        _process_columns(table_name, col_iter)
+                    except Exception as col_err:
+                        logger.warning(f"[SQL] Could not describe table {table_name}: {col_err}")
+            except Exception as e:
+                logger.warning(f"[SQL] Live catalog scan failed: {e}. Falling back to mock data.")
 
-                        if tag is None:
-                            continue  # Skip columns with no governance relevance
-
-                        item_id = f"live-{self.live_schema}-{table_name}-{col_name}".lower().replace(" ", "_")
-                        items.append(ClassificationItem(
-                            id=item_id,
-                            schema_name=self.live_schema,
-                            table_name=table_name,
-                            column_name=col_name,
-                            data_type=data_type,
-                            suggested_tag=tag,
-                            native_classification=native_class,
-                            ontology_match="",
-                            similar_columns=[],
-                            confidence_score=conf,
-                            supervisor_recommendation="Auto-Approve" if conf >= 0.95 else "Review Recommended",
-                            ai_explanation=explanation,
-                            sample_values=[],
-                            status="PENDING",
-                            submitted_time=now,
-                            priority=priority,
-                            category=category,
-                            domain=self.live_schema.replace("_", " ").title(),
-                            concept_match="",
-                            concept_confidence=conf,
-                            similar_columns_metrics=[],
-                            governance_timeline=[
-                                {"stage": "Column Discovered in Live Catalog",
-                                 "timestamp": now.strftime("%Y-%m-%d %H:%M")},
-                                {"stage": "AI Classified",
-                                 "timestamp": now.strftime("%Y-%m-%d %H:%M")}
-                            ]
-                        ))
-                except Exception as col_err:
-                    logger.warning(f"Could not describe table {table_name}: {col_err}")
-
-        except Exception as e:
-            logger.warning(f"Live catalog scan failed: {e}. Falling back to mock data.")
-
-        logger.info(f"Live scan complete: {len(items)} governance-relevant columns found.")
+        logger.info(f"Scan complete: {len(items)} governance-relevant columns found.")
         return items
 
     # ── Data access ───────────────────────────────────────────────────────────

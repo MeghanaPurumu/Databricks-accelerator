@@ -68,30 +68,21 @@ class UnityCatalogService:
 
     def _discover_live_catalog(self) -> dict:
         """
-        Scan dev.synthetic_data tables and columns via SHOW TABLES + DESCRIBE TABLE.
-        Returns a unity_catalog dict keyed by schema.table.column.
-        Falls back to empty dict on any error.
+        Scan LIVE_CATALOG.LIVE_SCHEMA tables and columns.
+        Uses pure Databricks SDK metadata list, falling back to Spark SQL.
         """
-        if not self.spark:
-            return {}
         catalog = {}
-        try:
-            tables_df = self.spark.sql(f"SHOW TABLES IN {LIVE_CATALOG}.{LIVE_SCHEMA}")
-            tables = tables_df.collect()
-            for row in tables:
-                table_name = row.asDict().get("tableName") or row.asDict().get("table_name", "")
-                if not table_name:
-                    continue
-                try:
-                    cols_df = self.spark.sql(f"DESCRIBE TABLE {LIVE_CATALOG}.{LIVE_SCHEMA}.{table_name}")
-                    for col_row in cols_df.collect():
-                        col_dict = col_row.asDict()
-                        col_name = col_dict.get("col_name", "")
-                        data_type = col_dict.get("data_type", "")
-                        # Skip partition headers and empty rows
-                        if not col_name or col_name.startswith("#") or not data_type:
-                            continue
-                        key = f"{LIVE_SCHEMA}.{table_name}.{col_name}"
+        
+        # 1. Try pure SDK metadata listing (doesn't require a SQL Warehouse)
+        if self.client:
+            try:
+                tables = self.client.tables.list(catalog_name=LIVE_CATALOG, schema_name=LIVE_SCHEMA)
+                for t in tables:
+                    table_name = t.name
+                    if not t.columns:
+                        continue
+                    for col in t.columns:
+                        key = f"{LIVE_SCHEMA}.{table_name}.{col.name}"
                         catalog[key] = {
                             "tag": "",
                             "masking_policy": "None",
@@ -99,25 +90,65 @@ class UnityCatalogService:
                             "class_date": "",
                             "last_reviewer": "",
                             "status": "Unclassified",
-                            "data_type": data_type
+                            "data_type": col.type_text or col.type_name
                         }
-                except Exception as col_err:
-                    logger.warning(f"Could not describe {table_name}: {col_err}")
-        except Exception as e:
-            logger.warning(f"Could not discover live catalog from {LIVE_CATALOG}.{LIVE_SCHEMA}: {e}")
+                logger.info(f"Successfully discovered {len(catalog)} columns via Databricks SDK.")
+                return catalog
+            except Exception as sdk_err:
+                logger.warning(f"SDK table discovery failed: {sdk_err}. Falling back to Spark/SQL...")
+
+        # 2. Fallback to Spark/SQL if Spark session/wrapper is available
+        if self.spark:
+            try:
+                tables_df = self.spark.sql(f"SHOW TABLES IN {LIVE_CATALOG}.{LIVE_SCHEMA}")
+                tables = tables_df.collect()
+                for row in tables:
+                    table_name = row.asDict().get("tableName") or row.asDict().get("table_name", "")
+                    if not table_name:
+                        continue
+                    try:
+                        cols_df = self.spark.sql(f"DESCRIBE TABLE {LIVE_CATALOG}.{LIVE_SCHEMA}.{table_name}")
+                        for col_row in cols_df.collect():
+                            col_dict = col_row.asDict()
+                            col_name = col_dict.get("col_name", "")
+                            data_type = col_dict.get("data_type", "")
+                            if not col_name or col_name.startswith("#") or not data_type:
+                                continue
+                            key = f"{LIVE_SCHEMA}.{table_name}.{col_name}"
+                            catalog[key] = {
+                                "tag": "",
+                                "masking_policy": "None",
+                                "abac_policy": "None",
+                                "class_date": "",
+                                "last_reviewer": "",
+                                "status": "Unclassified",
+                                "data_type": data_type
+                            }
+                    except Exception as col_err:
+                        logger.warning(f"Could not describe {table_name} via SQL: {col_err}")
+            except Exception as e:
+                logger.warning(f"Could not discover live catalog via Spark SQL: {e}")
+                
         return catalog
 
     def get_live_table_list(self):
-        """Returns list of real tables from dev.synthetic_data, or empty list on error."""
-        if not self.spark:
-            return []
-        try:
-            df = self.spark.sql(f"SHOW TABLES IN {LIVE_CATALOG}.{LIVE_SCHEMA}")
-            rows = df.collect()
-            return [r.asDict().get("tableName") or r.asDict().get("table_name", "") for r in rows]
-        except Exception as e:
-            logger.warning(f"Could not list tables: {e}")
-            return []
+        """Returns list of real tables from live catalog/schema, or empty list on error."""
+        if self.client:
+            try:
+                tables = self.client.tables.list(catalog_name=LIVE_CATALOG, schema_name=LIVE_SCHEMA)
+                return [t.name for t in tables]
+            except Exception as sdk_err:
+                logger.warning(f"SDK table list failed: {sdk_err}. Trying Spark/SQL...")
+                
+        if self.spark:
+            try:
+                df = self.spark.sql(f"SHOW TABLES IN {LIVE_CATALOG}.{LIVE_SCHEMA}")
+                rows = df.collect()
+                return [r.asDict().get("tableName") or r.asDict().get("table_name", "") for r in rows]
+            except Exception as e:
+                logger.warning(f"Could not list tables via SQL: {e}")
+                
+        return []
 
     def get_column_metadata(self, schema: str, table: str, column: str):
         """Retrieve governance metadata (tags, masking policy, ABAC rules) for a column."""
