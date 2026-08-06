@@ -101,7 +101,7 @@ st.dataframe(
         "Comments":      st.column_config.TextColumn("Comments",       width="large")
     },
     hide_index=True,
-    width='stretch'
+    use_container_width=True
 )
 
 st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:16px 0;'>", unsafe_allow_html=True)

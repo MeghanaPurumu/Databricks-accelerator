@@ -65,7 +65,7 @@ fig_dist.update_layout(
     plot_bgcolor='rgba(0,0,0,0)',
     font=dict(family='Inter', size=11, color='#64748B')
 )
-st.plotly_chart(fig_dist, use_container_width=True, width='stretch')
+st.plotly_chart(fig_dist, use_container_width=True)
 
 st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
@@ -83,7 +83,7 @@ if not df_audit.empty:
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(family='Inter', size=11, color='#64748B')
     )
-    st.plotly_chart(fig_line, use_container_width=True, width='stretch')
+    st.plotly_chart(fig_line, use_container_width=True)
 else:
     st.info("No governance decisions recorded yet.")
 

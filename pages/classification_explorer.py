@@ -68,5 +68,5 @@ st.dataframe(
         "class_date":     st.column_config.TextColumn("Classification Date"),
     },
     hide_index=True,
-    width='stretch'
+    use_container_width=True
 )
