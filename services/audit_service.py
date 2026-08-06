@@ -73,12 +73,18 @@ class AuditService:
         catalog = os.environ.get("DATABRICKS_CATALOG", "dev")
         schema = os.environ.get("DATABRICKS_SCHEMA", "brz")
         self.table_name = f"{catalog}.{schema}.governance_audit"
+        self.using_live_db = False
+        
+        # Seed local session state unconditionally as a fallback
+        if "audit_logs" not in st.session_state:
+            st.session_state.audit_logs = [AuditEntry(**item) for item in INITIAL_AUDIT_LOGS]
         
         if self.spark:
             try:
                 # Check if Delta table already exists in catalog
                 self.spark.sql(f"DESCRIBE TABLE {self.table_name}")
                 logger.info(f"Connected to live Delta table: {self.table_name}")
+                self.using_live_db = True
             except Exception:
                 # Table does not exist; attempt to bootstrap it
                 try:
@@ -91,35 +97,33 @@ class AuditService:
                     df = self.spark.createDataFrame(bootstrap_data)
                     df.write.format("delta").mode("overwrite").saveAsTable(self.table_name)
                     logger.info(f"Delta table '{self.table_name}' bootstrapped successfully.")
+                    self.using_live_db = True
                 except Exception as e:
-                    logger.warning(f"Failed to bootstrap audit Delta table: {e}. Falling back to mock mode.")
-                    self.spark = None  # Disable Spark for this service instance
-
-        if not self.spark:
-            # Fallback to local session state
-            if "audit_logs" not in st.session_state:
-                st.session_state.audit_logs = [AuditEntry(**item) for item in INITIAL_AUDIT_LOGS]
+                    logger.warning(f"Failed to bootstrap audit Delta table: {e}. Will use session state fallback.")
 
     def _row_to_entry(self, row) -> AuditEntry:
         """Parses a Spark Row object back into a structured AuditEntry Pydantic model."""
         r_dict = row.asDict()
         # Parse timestamp string to datetime
-        if isinstance(r_dict["timestamp"], str):
-            r_dict["timestamp"] = datetime.strptime(r_dict["timestamp"][:19], "%Y-%m-%d %H:%M:%S")
+        if isinstance(r_dict.get("timestamp"), str):
+            try:
+                r_dict["timestamp"] = datetime.strptime(r_dict["timestamp"][:19], "%Y-%m-%d %H:%M:%S")
+            except Exception:
+                r_dict["timestamp"] = datetime.now()
+        elif not r_dict.get("timestamp"):
+            r_dict["timestamp"] = datetime.now()
         return AuditEntry(**r_dict)
 
     def get_audit_history(self) -> List[AuditEntry]:
-        """Fetch all audit records."""
-        if self.spark:
+        """Fetch all audit records. Tries live database first, falls back to session state."""
+        if self.spark and self.using_live_db:
             try:
                 df = self.spark.sql(f"SELECT * FROM {self.table_name} ORDER BY timestamp DESC")
                 rows = df.collect()
                 return [self._row_to_entry(row) for row in rows]
             except Exception as e:
-                st.error(f"Error querying Delta table: {e}")
-                return []
-        else:
-            return st.session_state.audit_logs
+                logger.warning(f"Error querying live Delta table: {e}. Falling back to session state.")
+        return st.session_state.audit_logs
 
     def log_decision(
         self, 
@@ -161,7 +165,10 @@ class AuditService:
             approval_source=approval_source
         )
         
-        if self.spark:
+        # Always prepend to local session state first
+        st.session_state.audit_logs.insert(0, entry)
+        
+        if self.spark and self.using_live_db:
             try:
                 escaped_comments = comments.replace("'", "\\'")
                 escaped_prev_tag = previous_tag.replace("'", "\\'")
@@ -189,9 +196,9 @@ class AuditService:
                     )
                 """
                 self.spark.sql(query)
+                logger.info(f"Successfully saved decision to live Delta table: {self.table_name}")
             except Exception as e:
-                st.error(f"Error logging decision to Delta: {e}")
-        else:
-            st.session_state.audit_logs.insert(0, entry)  # Prepend for reverse chronological order
+                logger.error(f"Error logging decision to Delta: {e}")
             
         return entry
+

@@ -15,6 +15,20 @@ st.markdown(
 st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 audit_service = AuditService()
+
+# Show warning if running inside Databricks but Audit table connection is mock
+from utils.db import is_databricks, get_connection_status
+if is_databricks() and not audit_service.using_live_db:
+    conn_status = get_connection_status()
+    st.warning(
+        "⚠️ **Running in Databricks but Audit Log is in Session-only Fallback Mode.**\n\n"
+        f"This occurs because the table `{audit_service.table_name}` does not exist and the app could not create it. "
+        "Please ensure your user/service identity has **`CREATE TABLE`** privileges on the schema `dev.brz` in Unity Catalog. "
+        "Ask your administrator to run the following statement:\n"
+        "```sql\n"
+        f"GRANT CREATE TABLE ON SCHEMA {os.environ.get('DATABRICKS_CATALOG', 'dev')}.{os.environ.get('DATABRICKS_SCHEMA', 'brz')} TO `your-databricks-email@company.com`;\n"
+        "```"
+    )
 logs = audit_service.get_audit_history()
 
 if not logs:
