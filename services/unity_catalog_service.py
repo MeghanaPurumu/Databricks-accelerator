@@ -8,48 +8,58 @@ logger = logging.getLogger("unity_catalog_service")
 LIVE_CATALOG = os.environ.get("DATABRICKS_CATALOG", "dev")
 LIVE_SCHEMA  = os.environ.get("DATABRICKS_SCHEMA",  "brz")
 
-# Seeding Unity Catalog columns from the Healthcare Enterprise Data Model
+# ── Known live tables in dev.brz ── seeded as offline fallback when SDK unavailable
+# These will be OVERWRITTEN by live catalog discovery when running on Databricks
+LIVE_TABLES = [
+    "claims_billing_phi",
+    "classification_results",
+    "healthcare_patient_financial",
+]
+
 INITIAL_UC_CATALOG = {
-    "clinical.PATIENTS.tax_identifier": {
-        "tag": "pii:ssn",
-        "masking_policy": "MASK_FULL_SSN",
-        "abac_policy": "StewardOrComplianceOnly",
-        "class_date": "2026-07-01",
-        "last_reviewer": "steward@enterprise.com",
-        "status": "Approved"
+    # claims_billing_phi — billing claim records with PHI data
+    "brz.claims_billing_phi.patient_id": {
+        "tag": "phi:patient_id", "masking_policy": "MASK_PATIENT_ID",
+        "abac_policy": "PhysicianOrCompliance", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
     },
-    "clinical.PATIENTS.phone_num": {
-        "tag": "pii:phone",
-        "masking_policy": "MASK_LAST_4",
-        "abac_policy": "None",
-        "class_date": "2026-07-05",
-        "last_reviewer": "steward@enterprise.com",
-        "status": "Approved"
+    "brz.claims_billing_phi.claim_amount": {
+        "tag": "financial:amount", "masking_policy": "None",
+        "abac_policy": "FinanceRoleOnly", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
     },
-    "clinical.ENCOUNTERS.primary_diagnosis": {
-        "tag": "phi:diagnosis",
-        "masking_policy": "None",
-        "abac_policy": "PhysicianOrCompliance",
-        "class_date": "2026-07-10",
-        "last_reviewer": "steward@enterprise.com",
-        "status": "Approved"
+    "brz.claims_billing_phi.diagnosis_code": {
+        "tag": "phi:diagnosis", "masking_policy": "None",
+        "abac_policy": "PhysicianOrCompliance", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
     },
-    "revenue_cycle.CLAIM_LINE_ITEMS.charge_amount": {
-        "tag": "financial:amount",
-        "masking_policy": "None",
-        "abac_policy": "FinanceRoleOnly",
-        "class_date": "2026-07-12",
-        "last_reviewer": "compliance@enterprise.com",
-        "status": "Approved"
+    "brz.claims_billing_phi.provider_id": {
+        "tag": "phi:provider_id", "masking_policy": "None",
+        "abac_policy": "None", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
     },
-    "pharmacy.PRESCRIPTION_ITEMS.dosage_instructions": {
-        "tag": "phi:prescription",
-        "masking_policy": "None",
-        "abac_policy": "None",
-        "class_date": "2026-07-15",
-        "last_reviewer": "steward@enterprise.com",
-        "status": "Approved"
-    }
+    # healthcare_patient_financial — patient financial records
+    "brz.healthcare_patient_financial.patient_id": {
+        "tag": "phi:patient_id", "masking_policy": "MASK_PATIENT_ID",
+        "abac_policy": "PhysicianOrCompliance", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
+    },
+    "brz.healthcare_patient_financial.account_number": {
+        "tag": "financial:account", "masking_policy": "MASK_ACCOUNT",
+        "abac_policy": "FinanceRoleOnly", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
+    },
+    "brz.healthcare_patient_financial.insurance_id": {
+        "tag": "pii:insurance", "masking_policy": "None",
+        "abac_policy": "None", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
+    },
+    # classification_results — AI agent classification output table
+    "brz.classification_results.column_name": {
+        "tag": "", "masking_policy": "None",
+        "abac_policy": "None", "class_date": "",
+        "last_reviewer": "", "status": "Unclassified"
+    },
 }
 
 class UnityCatalogService:
