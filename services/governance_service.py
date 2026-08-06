@@ -196,7 +196,7 @@ COLUMN_CLASSIFICATION_RULES = [
     (["lab", "result", "test_result", "observation", "specimen"],          "phi:lab_result",   "PHI",       0.87, "High",     "PHI - Lab/Clinical Observation",      "Lab result keyword matched."),
     (["claim_amount", "charge", "payment", "amount", "billed", "cost"],    "financial:amount", "Financial", 0.94, "Medium",   "PCI/Financial - Billing Charge",      "Financial billing amount pattern matched."),
     (["account", "bank", "routing", "credit_card", "card_number"],         "financial:account","Financial", 0.96, "High",     "PCI - Financial Account Number",      "Payment/banking keyword matched."),
-    (["npi", "provider_id", "physician_id", "dea_number"],                 "phi:provider_id",  "PHI",       0.90, "High",     "PHI - Provider Identifier",           "Provider/physician ID keyword matched."),
+    (["npi", "provider_id", "physician_id", "dea_number", "physician", "attending"],                 "phi:provider_id",  "PHI",       0.90, "High",     "PHI - Provider Identifier",           "Provider/physician ID keyword matched."),
     (["insurance", "payer", "plan_id", "group_number", "policy_number"],   "pii:insurance",    "PII",       0.86, "Medium",   "PII - Insurance Identifier",          "Insurance plan keyword matched."),
 ]
 
@@ -230,19 +230,68 @@ class GovernanceService:
         Enumerates every column in LIVE_CATALOG.LIVE_SCHEMA, generates a
         ClassificationItem for each governance-relevant column.
         Tries Databricks SDK metadata first, then falls back to Spark SQL.
+        Loads existing classifications from classification_results if available.
         """
         items = []
         now = datetime.now()
 
+        # Load pre-existing classification metadata if Spark SQL is available
+        pre_classifications = {}
+        if self.spark:
+            try:
+                res_df = self.spark.sql(f"SELECT table_name, column_name, class_tag, data_type, confidence, samples FROM {self.live_catalog}.{self.live_schema}.classification_results")
+                for row in res_df.collect():
+                    r_dict = row.asDict()
+                    t_name = r_dict.get("table_name")
+                    c_name = r_dict.get("column_name")
+                    if t_name and c_name:
+                        key = (t_name.lower().strip(), c_name.lower().strip())
+                        pre_classifications[key] = r_dict
+                logger.info(f"Loaded {len(pre_classifications)} classifications from classification_results table.")
+            except Exception as sql_err:
+                logger.warning(f"Could not load pre-existing classifications from classification_results table: {sql_err}")
+
         def _process_columns(table_name: str, column_iter):
             """Build ClassificationItems from an iterable of (col_name, data_type) tuples."""
+            # Skip the classification results table itself
+            if table_name.lower().strip() == "classification_results":
+                return
+
             for col_name, data_type in column_iter:
                 if not col_name or col_name.startswith("#"):
                     continue
-                tag, category, conf, priority, native_class, explanation = \
-                    _classify_column(col_name, data_type or "STRING")
+
+                col_name_cleaned = col_name.lower().strip()
+                table_name_cleaned = table_name.lower().strip()
+                key = (table_name_cleaned, col_name_cleaned)
+
+                # Check if we have pre-existing classification metadata
+                if key in pre_classifications:
+                    res_row = pre_classifications[key]
+                    tag = res_row.get("class_tag") or ""
+                    # Don't show column if tag is empty or unclassified
+                    if not tag or tag.lower() in ["unclassified", "none", ""]:
+                        # Fallback to local rule classifier
+                        tag, category, conf, priority, native_class, explanation = \
+                            _classify_column(col_name, data_type or "STRING")
+                    else:
+                        category = "PII" if "pii" in tag.lower() else "PHI" if "phi" in tag.lower() else "Financial" if "financial" in tag.lower() else "Sensitive"
+                        conf_str = res_row.get("confidence") or "0.9"
+                        try:
+                            conf = float(conf_str)
+                        except ValueError:
+                            conf = 0.90
+                        priority = "Critical" if conf >= 0.95 else "High" if conf >= 0.85 else "Medium"
+                        native_class = f"Classified as {tag.upper()}"
+                        explanation = "Discovered pre-existing classification in classification_results metadata table."
+                else:
+                    # Fallback to local rule classifier
+                    tag, category, conf, priority, native_class, explanation = \
+                        _classify_column(col_name, data_type or "STRING")
+
                 if tag is None:
                     continue
+
                 item_id = f"live-{self.live_schema}-{table_name}-{col_name}".lower().replace(" ", "_")
                 items.append(ClassificationItem(
                     id=item_id,
