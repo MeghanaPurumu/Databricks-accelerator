@@ -22,7 +22,7 @@ INITIAL_PENDING_REVIEWS = [
         "suggested_tag": "phi:patient_id",
         "native_classification": "PHI - Patient Identifier",
         "ontology_match": "Patient Master Identifier",
-        "similar_columns": ["brz.healthcare_patient_financial.patient_id (phi:patient_id)"],
+        "similar_columns": ["brz.healthcare_patients_financial.patient_id (phi:patient_id)"],
         "confidence_score": 0.95,
         "supervisor_recommendation": "Auto-Approve",
         "ai_explanation": "Column name and context match PHI patient identifier pattern.",
@@ -35,7 +35,7 @@ INITIAL_PENDING_REVIEWS = [
         "concept_match": "Patient Master Identifier",
         "concept_confidence": 0.96,
         "similar_columns_metrics": [
-            {"name": "brz.healthcare_patient_financial.patient_id", "similarity": 97.0}
+            {"name": "brz.healthcare_patients_financial.patient_id", "similarity": 97.0}
         ],
         "governance_timeline": [
             {"stage": "Column Discovered in Live Catalog", "timestamp": (datetime.now() - timedelta(days=3)).strftime("%Y-%m-%d %H:%M")},
@@ -99,7 +99,7 @@ INITIAL_PENDING_REVIEWS = [
     {
         "id": "req-hpf-001",
         "schema_name": "brz",
-        "table_name": "healthcare_patient_financial",
+        "table_name": "healthcare_patients_financial",
         "column_name": "account_number",
         "data_type": "STRING",
         "suggested_tag": "financial:account",
@@ -126,7 +126,7 @@ INITIAL_PENDING_REVIEWS = [
     {
         "id": "req-hpf-002",
         "schema_name": "brz",
-        "table_name": "healthcare_patient_financial",
+        "table_name": "healthcare_patients_financial",
         "column_name": "insurance_id",
         "data_type": "STRING",
         "suggested_tag": "pii:insurance",
@@ -153,7 +153,7 @@ INITIAL_PENDING_REVIEWS = [
     {
         "id": "req-hpf-003",
         "schema_name": "brz",
-        "table_name": "healthcare_patient_financial",
+        "table_name": "healthcare_patients_financial",
         "column_name": "patient_id",
         "data_type": "STRING",
         "suggested_tag": "phi:patient_id",

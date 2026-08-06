@@ -13,7 +13,7 @@ LIVE_SCHEMA  = os.environ.get("DATABRICKS_SCHEMA",  "brz")
 LIVE_TABLES = [
     "claims_billing_phi",
     "classification_results",
-    "healthcare_patient_financial",
+    "healthcare_patients_financial",
 ]
 
 INITIAL_UC_CATALOG = {
@@ -38,18 +38,18 @@ INITIAL_UC_CATALOG = {
         "abac_policy": "None", "class_date": "",
         "last_reviewer": "", "status": "Unclassified"
     },
-    # healthcare_patient_financial — patient financial records
-    "brz.healthcare_patient_financial.patient_id": {
+    # healthcare_patients_financial — patient financial records
+    "brz.healthcare_patients_financial.patient_id": {
         "tag": "phi:patient_id", "masking_policy": "MASK_PATIENT_ID",
         "abac_policy": "PhysicianOrCompliance", "class_date": "",
         "last_reviewer": "", "status": "Unclassified"
     },
-    "brz.healthcare_patient_financial.account_number": {
+    "brz.healthcare_patients_financial.account_number": {
         "tag": "financial:account", "masking_policy": "MASK_ACCOUNT",
         "abac_policy": "FinanceRoleOnly", "class_date": "",
         "last_reviewer": "", "status": "Unclassified"
     },
-    "brz.healthcare_patient_financial.insurance_id": {
+    "brz.healthcare_patients_financial.insurance_id": {
         "tag": "pii:insurance", "masking_policy": "None",
         "abac_policy": "None", "class_date": "",
         "last_reviewer": "", "status": "Unclassified"
