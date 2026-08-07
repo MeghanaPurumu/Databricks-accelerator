@@ -80,6 +80,16 @@ class AuditService:
             st.session_state.audit_logs = [AuditEntry(**item) for item in INITIAL_AUDIT_LOGS]
         
         if self.spark:
+            # Try to create catalog and schema if they don't exist
+            try:
+                self.spark.sql(f"CREATE CATALOG IF NOT EXISTS {catalog}")
+            except Exception as e:
+                logger.warning(f"Could not create catalog {catalog}: {e}")
+            try:
+                self.spark.sql(f"CREATE SCHEMA IF NOT EXISTS {catalog}.{schema}")
+            except Exception as e:
+                logger.warning(f"Could not create schema {catalog}.{schema}: {e}")
+
             try:
                 # Check if Delta table already exists in catalog
                 self.spark.sql(f"DESCRIBE TABLE {self.table_name}")

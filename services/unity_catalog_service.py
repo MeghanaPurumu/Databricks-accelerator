@@ -112,6 +112,9 @@ class UnityCatalogService:
         self.using_live = False
 
         if "unity_catalog" not in st.session_state:
+            # Bootstrap classifications first if running live on Databricks
+            self._bootstrap_classification_results()
+            
             live_catalog = self._discover_live_catalog()
             if live_catalog:
                 st.session_state.unity_catalog = live_catalog
@@ -123,6 +126,49 @@ class UnityCatalogService:
         else:
             # Re-check if live for status reporting
             self.using_live = st.session_state.get("uc_live_mode", False)
+
+    def _bootstrap_classification_results(self):
+        """Auto-create catalog, schema, and classification_results table on Databricks if not exists."""
+        if not self.spark:
+            return
+        catalog = os.environ.get("DATABRICKS_CATALOG", "dev")
+        schema = os.environ.get("DATABRICKS_SCHEMA", "brz")
+        table_name = f"{catalog}.{schema}.classification_results"
+        
+        # Try to create catalog and schema if they don't exist
+        try:
+            self.spark.sql(f"CREATE CATALOG IF NOT EXISTS {catalog}")
+        except Exception as e:
+            logger.warning(f"Could not create catalog {catalog}: {e}")
+        try:
+            self.spark.sql(f"CREATE SCHEMA IF NOT EXISTS {catalog}.{schema}")
+        except Exception as e:
+            logger.warning(f"Could not create schema {catalog}.{schema}: {e}")
+            
+        try:
+            self.spark.sql(f"DESCRIBE TABLE {table_name}")
+            logger.info(f"classification_results table already exists.")
+            st.session_state["uc_live_mode"] = True
+        except Exception:
+            try:
+                logger.info(f"Bootstrapping classification_results table: {table_name}")
+                bootstrap_data = [
+                    {"table_name": "claims_billing_phi", "column_name": "patient_id", "class_tag": "phi:patient_id", "data_type": "STRING", "confidence": "0.95", "samples": "['***masked***']"},
+                    {"table_name": "claims_billing_phi", "column_name": "claim_amount", "class_tag": "financial:amount", "data_type": "DECIMAL", "confidence": "0.94", "samples": "['***masked***']"},
+                    {"table_name": "claims_billing_phi", "column_name": "diagnosis_code", "class_tag": "phi:diagnosis", "data_type": "STRING", "confidence": "0.93", "samples": "['***masked***']"},
+                    {"table_name": "healthcare_patients_financial", "column_name": "patient_id", "class_tag": "phi:patient_id", "data_type": "STRING", "confidence": "0.95", "samples": "['***masked***']"},
+                    {"table_name": "healthcare_patients_financial", "column_name": "account_number", "class_tag": "financial:account", "data_type": "STRING", "confidence": "0.96", "samples": "['***masked***']"},
+                    {"table_name": "healthcare_patients_financial", "column_name": "insurance_id", "class_tag": "pii:insurance", "data_type": "STRING", "confidence": "0.86", "samples": "['***masked***']"},
+                    {"table_name": "healthcare_patients_financial", "column_name": "date_of_birth", "class_tag": "pii:dob", "data_type": "STRING", "confidence": "0.96", "samples": "['***masked***']"},
+                    {"table_name": "healthcare_patients_financial", "column_name": "email_address", "class_tag": "pii:email", "data_type": "STRING", "confidence": "0.94", "samples": "['***masked***']"},
+                    {"table_name": "healthcare_patients_financial", "column_name": "phone_number", "class_tag": "pii:phone", "data_type": "STRING", "confidence": "0.92", "samples": "['***masked***']"},
+                ]
+                df = self.spark.createDataFrame(bootstrap_data)
+                df.write.format("delta").mode("overwrite").saveAsTable(table_name)
+                logger.info(f"classification_results table bootstrapped successfully.")
+                st.session_state["uc_live_mode"] = True
+            except Exception as e:
+                logger.warning(f"Failed to bootstrap classification_results table: {e}")
 
     def _load_classification_results(self) -> dict:
         """
