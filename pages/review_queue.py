@@ -259,228 +259,224 @@ if active_id:
 
         # ── Panel 1: Asset Details ────────────────────────────────────────────
         with p_left:
-            st.markdown("<div class='panel-box'>", unsafe_allow_html=True)
-            st.markdown("<div class='section-title'>Asset Details</div>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<div class='section-title'>Asset Details</div>", unsafe_allow_html=True)
 
-            details = {
-                "Schema":       active_item.schema_name,
-                "Table":        active_item.table_name,
-                "Column":       active_item.column_name,
-                "Data Type":    active_item.data_type,
-                "Domain":       active_item.domain,
-                "Category":     active_item.category,
-            }
-            for k, v in details.items():
+                details = {
+                    "Schema":       active_item.schema_name,
+                    "Table":        active_item.table_name,
+                    "Column":       active_item.column_name,
+                    "Data Type":    active_item.data_type,
+                    "Domain":       active_item.domain,
+                    "Category":     active_item.category,
+                }
+                for k, v in details.items():
+                    st.markdown(
+                        f"<div style='display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;'>"
+                        f"<span style='color:var(--ink-muted);'>{k}</span>"
+                        f"<span style='color:var(--ink);font-weight:500;' class='mono-val'>{v}</span>"
+                        f"</div>",
+                        unsafe_allow_html=True
+                    )
+
+                st.markdown("<div style='margin-top:14px;'></div>", unsafe_allow_html=True)
+                st.markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>Masked Sample Values</div>", unsafe_allow_html=True)
+                if active_item.sample_values:
+                    for val in active_item.sample_values:
+                        st.code(val, language="text")
+                else:
+                    st.caption("No sample values available.")
+
+                st.markdown("<div style='margin-top:12px;font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>Policies Applied on Approval</div>", unsafe_allow_html=True)
                 st.markdown(
-                    f"<div style='display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;'>"
-                    f"<span style='color:var(--ink-muted);'>{k}</span>"
-                    f"<span style='color:var(--ink);font-weight:500;' class='mono-val'>{v}</span>"
-                    f"</div>",
+                    "<div style='font-size:12px;color:var(--ink);'>"
+                    "Masking: <code class='mono-text'>MASK_SENSITIVE_VALUE</code><br>"
+                    "ABAC Rule: <code class='mono-text'>StewardOrComplianceRoleRequired</code>"
+                    "</div>",
                     unsafe_allow_html=True
                 )
 
-            st.markdown("<div style='margin-top:14px;'></div>", unsafe_allow_html=True)
-            st.markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>Masked Sample Values</div>", unsafe_allow_html=True)
-            if active_item.sample_values:
-                for val in active_item.sample_values:
-                    st.code(val, language="text")
-            else:
-                st.caption("No sample values available.")
-
-            st.markdown("<div style='margin-top:12px;font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>Policies Applied on Approval</div>", unsafe_allow_html=True)
-            st.markdown(
-                "<div style='font-size:12px;color:var(--ink);'>"
-                "Masking: <code class='mono-text'>MASK_SENSITIVE_VALUE</code><br>"
-                "ABAC Rule: <code class='mono-text'>StewardOrComplianceRoleRequired</code>"
-                "</div>",
-                unsafe_allow_html=True
-            )
-            st.markdown("</div>", unsafe_allow_html=True)
 
         # ── Panel 2: AI Reasoning & Timeline ─────────────────────────────────
         with p_center:
-            st.markdown("<div class='panel-box'>", unsafe_allow_html=True)
-            st.markdown("<div class='section-title'>Steward Review Assistant</div>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<div class='section-title'>Steward Review Assistant</div>", unsafe_allow_html=True)
 
-            tab_ai, tab_history = st.tabs(["AI Reasoning", "Governance Timeline"])
+                tab_ai, tab_history = st.tabs(["AI Reasoning", "Governance Timeline"])
 
-            with tab_ai:
-                col_reason_info, col_reason_ring = st.columns([8, 4])
-                
-                with col_reason_info:
-                    st.markdown(
-                        f"<div style='margin-bottom:12px;'>"
-                        f"<div style='font-size:11px;color:var(--ink-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px;'>Suggested Tag</div>"
-                        f"<code class='mono-text' style='font-size:14px;background:var(--surface-sunken);padding:4px 8px;border-radius:4px;'>{active_item.suggested_tag}</code>"
-                        f"</div>"
-                        f"<div style='margin-bottom:12px;'>"
-                        f"<div style='font-size:11px;color:var(--ink-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px;'>Ontology Match</div>"
-                        f"<div style='font-size:14px;font-weight:600;color:var(--ink);'>{active_item.concept_match or 'None'}</div>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
-                with col_reason_ring:
-                    _conf_source = "Live Agent" if (st.session_state.get('uc_live_mode') and _is_live) else "Rule Engine"
-                    _conf_src_color = "#0F9D58" if _conf_source == "Live Agent" else "#F59E0B"
-                    st.markdown(
-                        f"<div style='text-align: center;'>"
-                        f"{render_confidence_ring(active_item.confidence_score, size=64)}"
-                        f"<div style='font-size: 11px; color: var(--ink-muted); font-weight: 600; margin-top: 4px;'>AI Confidence</div>"
-                        f"<div class='mono-text' style='font-size: 14px; font-weight: 700; color: var(--ink);'>{active_item.confidence_score*100:.1f}%</div>"
-                        f"<div style='font-size:9px; color:{_conf_src_color}; margin-top:4px; font-weight:600;'>{_conf_source}</div>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
+                with tab_ai:
+                    col_reason_info, col_reason_ring = st.columns([8, 4])
+                    
+                    with col_reason_info:
+                        st.markdown(
+                            f"<div style='margin-bottom:12px;'>"
+                            f"<div style='font-size:11px;color:var(--ink-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px;'>Suggested Tag</div>"
+                            f"<code class='mono-text' style='font-size:14px;background:var(--surface-sunken);padding:4px 8px;border-radius:4px;'>{active_item.suggested_tag}</code>"
+                            f"</div>"
+                            f"<div style='margin-bottom:12px;'>"
+                            f"<div style='font-size:11px;color:var(--ink-muted);font-weight:600;text-transform:uppercase;margin-bottom:4px;'>Ontology Match</div>"
+                            f"<div style='font-size:14px;font-weight:600;color:var(--ink);'>{active_item.concept_match or 'None'}</div>"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
+                    with col_reason_ring:
+                        _conf_source = "Live Agent" if (st.session_state.get('uc_live_mode') and _is_live) else "Rule Engine"
+                        _conf_src_color = "#0F9D58" if _conf_source == "Live Agent" else "#F59E0B"
+                        st.markdown(
+                            f"<div style='text-align: center;'>"
+                            f"{render_confidence_ring(active_item.confidence_score, size=64)}"
+                            f"<div style='font-size: 11px; color: var(--ink-muted); font-weight: 600; margin-top: 4px;'>AI Confidence</div>"
+                            f"<div class='mono-text' style='font-size: 14px; font-weight: 700; color: var(--ink);'>{active_item.confidence_score*100:.1f}%</div>"
+                            f"<div style='font-size:9px; color:{_conf_src_color}; margin-top:4px; font-weight:600;'>{_conf_source}</div>"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
 
-                st.markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>Similar Columns in Catalog</div>", unsafe_allow_html=True)
-                if active_item.similar_columns_metrics:
-                    for sim in active_item.similar_columns_metrics:
-                        sim_val = float(sim['similarity']) / 100.0
-                        sim_ring = render_confidence_ring(sim_val, size=20)
-                        
-                        col_sim_btn, col_sim_info = st.columns([10, 2])
-                        with col_sim_info:
-                            st.markdown(f"<div style='display:flex;align-items:center;justify-content:flex-end;height:34px;'>{sim_ring}</div>", unsafe_allow_html=True)
-                        with col_sim_btn:
-                            if st.button(f"{sim['name']} ({sim['similarity']}%)", key=f"sim_{sim['name']}", use_container_width=True):
-                                found = [i for i in items if f"{i.schema_name}.{i.table_name}.{i.column_name}" == sim["name"]]
-                                if found:
-                                    st.session_state.active_review_id = found[0].id
-                                    st.session_state.show_approval_flow = False
-                                    st.rerun()
-                                else:
-                                    st.info("This column has already been reviewed.")
-                else:
-                    st.caption("No similar columns identified.")
+                    st.markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>Similar Columns in Catalog</div>", unsafe_allow_html=True)
+                    if active_item.similar_columns_metrics:
+                        for sim in active_item.similar_columns_metrics:
+                            sim_val = float(sim['similarity']) / 100.0
+                            sim_ring = render_confidence_ring(sim_val, size=20)
+                            
+                            col_sim_btn, col_sim_info = st.columns([10, 2])
+                            with col_sim_info:
+                                st.markdown(f"<div style='display:flex;align-items:center;justify-content:flex-end;height:34px;'>{sim_ring}</div>", unsafe_allow_html=True)
+                            with col_sim_btn:
+                                if st.button(f"{sim['name']} ({sim['similarity']}%)", key=f"sim_{sim['name']}", use_container_width=True):
+                                    found = [i for i in items if f"{i.schema_name}.{i.table_name}.{i.column_name}" == sim["name"]]
+                                    if found:
+                                        st.session_state.active_review_id = found[0].id
+                                        st.session_state.show_approval_flow = False
+                                        st.rerun()
+                                    else:
+                                        st.info("This column has already been reviewed.")
+                    else:
+                        st.caption("No similar columns identified.")
 
-                st.markdown("<div style='margin-top:12px;font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>AI Decision Flow</div>", unsafe_allow_html=True)
-                steps = [
-                    ("Sensitive Pattern Detected",   "Native classification scan identifies risk signal."),
-                    ("Ontology Match Resolved",       f"Matched concept: {active_item.concept_match}."),
-                    ("Similar Columns Located",       "Catalog history cross-referenced."),
-                    ("Confidence Score Calculated",   f"Score: {format_confidence(active_item.confidence_score)}."),
-                    ("Recommendation Generated",      f"Action: {active_item.supervisor_recommendation}."),
-                ]
-                for step_title, step_desc in steps:
-                    st.markdown(
-                        f"<div class='timeline-item'>"
-                        f"<div style='font-size:13px;font-weight:600;color:var(--ink);'>{step_title}</div>"
-                        f"<div style='font-size:12px;color:var(--ink-muted);'>{step_desc}</div>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
+                    st.markdown("<div style='margin-top:12px;font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:8px;'>AI Decision Flow</div>", unsafe_allow_html=True)
+                    steps = [
+                        ("Sensitive Pattern Detected",   "Native classification scan identifies risk signal."),
+                        ("Ontology Match Resolved",       f"Matched concept: {active_item.concept_match}."),
+                        ("Similar Columns Located",       "Catalog history cross-referenced."),
+                        ("Confidence Score Calculated",   f"Score: {format_confidence(active_item.confidence_score)}."),
+                        ("Recommendation Generated",      f"Action: {active_item.supervisor_recommendation}."),
+                    ]
+                    for step_title, step_desc in steps:
+                        st.markdown(
+                            f"<div class='timeline-item'>"
+                            f"<div style='font-size:13px;font-weight:600;color:var(--ink);'>{step_title}</div>"
+                            f"<div style='font-size:12px;color:var(--ink-muted);'>{step_desc}</div>"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
 
-            with tab_history:
-                st.markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;'>Governance Lifecycle</div>", unsafe_allow_html=True)
-                for stage in active_item.governance_timeline:
-                    st.markdown(
-                        f"<div style='padding:10px 12px;border-left:2px solid var(--success);"
-                        f"margin-left:6px;margin-bottom:6px;background:var(--bg);border-radius:0 4px 4px 0;'>"
-                        f"<div style='font-size:13px;font-weight:600;color:var(--ink);'>{stage['stage']}</div>"
-                        f"<div class='mono-text' style='font-size:11px;color:var(--ink-muted);margin-top:2px;'>{stage['timestamp']}</div>"
-                        f"</div>",
-                        unsafe_allow_html=True
-                    )
-
-            st.markdown("</div>", unsafe_allow_html=True)
+                with tab_history:
+                    st.markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;'>Governance Lifecycle</div>", unsafe_allow_html=True)
+                    for stage in active_item.governance_timeline:
+                        st.markdown(
+                            f"<div style='padding:10px 12px;border-left:2px solid var(--success);"
+                            f"margin-left:6px;margin-bottom:6px;background:var(--bg);border-radius:0 4px 4px 0;'>"
+                            f"<div style='font-size:13px;font-weight:600;color:var(--ink);'>{stage['stage']}</div>"
+                            f"<div class='mono-text' style='font-size:11px;color:var(--ink-muted);margin-top:2px;'>{stage['timestamp']}</div>"
+                            f"</div>",
+                            unsafe_allow_html=True
+                        )
 
         # ── Panel 3: Decision Panel ───────────────────────────────────────────
         with p_right:
-            st.markdown("<div class='panel-box'>", unsafe_allow_html=True)
-            st.markdown("<div class='section-title'>Decision Panel</div>", unsafe_allow_html=True)
+            with st.container(border=True):
+                st.markdown("<div class='section-title'>Decision Panel</div>", unsafe_allow_html=True)
 
-            can_act = has_permission("approve_reject")
-            if not can_act:
-                st.warning("Only Governance Stewards and Compliance Officers can submit decisions.")
+                can_act = has_permission("approve_reject")
+                if not can_act:
+                    st.warning("Only Governance Stewards and Compliance Officers can submit decisions.")
 
-            steward_tag      = st.text_input("Classification Tag",    value=active_item.suggested_tag, disabled=not can_act)
-            steward_comments = st.text_area("Steward Notes",          value="", placeholder="Provide reasoning for this decision...", disabled=not can_act)
+                steward_tag      = st.text_input("Classification Tag",    value=active_item.suggested_tag, disabled=not can_act)
+                steward_comments = st.text_area("Steward Notes",          value="", placeholder="Provide reasoning for this decision...", disabled=not can_act)
 
-            decision_action = st.selectbox(
-                "Decision Action",
-                options=[
-                    "Approve Recommendation",
-                    "Reject Recommendation",
-                    "Modify Classification",
-                    "Merge with Existing Concept",
-                    "Escalate for Expert Review",
-                    "Request Additional Information",
-                    "Save as Draft"
-                ],
-                disabled=not can_act
-            )
+                decision_action = st.selectbox(
+                    "Decision Action",
+                    options=[
+                        "Approve Recommendation",
+                        "Reject Recommendation",
+                        "Modify Classification",
+                        "Merge with Existing Concept",
+                        "Escalate for Expert Review",
+                        "Request Additional Information",
+                        "Save as Draft"
+                    ],
+                    disabled=not can_act
+                )
 
-            confirmed = st.checkbox("I confirm this decision conforms to organizational data policies.", disabled=not can_act)
+                confirmed = st.checkbox("I confirm this decision conforms to organizational data policies.", disabled=not can_act)
 
-            if st.button("Submit Decision", type="primary", disabled=not confirmed or not can_act, use_container_width=True):
-                st.session_state.show_approval_flow = True
-                st.session_state.flow_step = 0
-                st.rerun()
+                if st.button("Submit Decision", type="primary", disabled=not confirmed or not can_act, use_container_width=True):
+                    st.session_state.show_approval_flow = True
+                    st.session_state.flow_step = 0
+                    st.rerun()
 
-            if st.session_state.get("show_approval_flow"):
-                st.markdown("<div style='margin-top:12px;font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;'>Workflow Progress</div>", unsafe_allow_html=True)
-                steps = [
-                    "Decision Registered",
-                    "Unity Catalog Tag Applied",
-                    "ABAC Policy Validated",
-                    "Governed View Updated",
-                    "Audit Record Created",
-                    "Notification Broadcast"
-                ]
-                progress_bar      = st.progress(0.0)
-                step_placeholder  = st.empty()
+                if st.session_state.get("show_approval_flow"):
+                    st.markdown("<div style='margin-top:12px;font-size:11px;font-weight:600;color:var(--ink-muted);letter-spacing:0.06em;text-transform:uppercase;'>Workflow Progress</div>", unsafe_allow_html=True)
+                    steps = [
+                        "Decision Registered",
+                        "Unity Catalog Tag Applied",
+                        "ABAC Policy Validated",
+                        "Governed View Updated",
+                        "Audit Record Created",
+                        "Notification Broadcast"
+                    ]
+                    progress_bar      = st.progress(0.0)
+                    step_placeholder  = st.empty()
 
-                for i, step_name in enumerate(steps):
-                    progress_bar.progress((i + 1) / len(steps))
-                    step_placeholder.markdown(
-                        f"<div style='font-size:13px;color:var(--success);font-weight:500;'>Step {i+1} of {len(steps)}: {step_name}</div>",
-                        unsafe_allow_html=True
-                    )
-                    time.sleep(0.35)
+                    for i, step_name in enumerate(steps):
+                        progress_bar.progress((i + 1) / len(steps))
+                        step_placeholder.markdown(
+                            f"<div style='font-size:13px;color:var(--success);font-weight:500;'>Step {i+1} of {len(steps)}: {step_name}</div>",
+                            unsafe_allow_html=True
+                        )
+                        time.sleep(0.35)
 
-                # Backend updates
-                if "Approve" in decision_action:
-                    uc_service.apply_column_tag(active_item.schema_name, active_item.table_name, active_item.column_name, steward_tag, current_user["email"])
-                    gov_service.update_status(active_item.id, "APPROVED", steward_tag)
-                    audit_service.log_decision(
-                        user_email=current_user["email"], schema=active_item.schema_name,
-                        table=active_item.table_name, column=active_item.column_name,
-                        previous_tag="None", new_tag=steward_tag, decision="APPROVE",
-                        comments=steward_comments, ai_recommendation=active_item.suggested_tag,
-                        confidence_score=active_item.confidence_score
-                    )
-                elif "Reject" in decision_action:
-                    gov_service.update_status(active_item.id, "REJECTED")
-                    audit_service.log_decision(
-                        user_email=current_user["email"], schema=active_item.schema_name,
-                        table=active_item.table_name, column=active_item.column_name,
-                        previous_tag="None", new_tag="None", decision="REJECT",
-                        comments=steward_comments, ai_recommendation=active_item.suggested_tag,
-                        confidence_score=active_item.confidence_score
-                    )
-                elif "Modify" in decision_action or "Merge" in decision_action:
-                    gov_service.update_status(active_item.id, "APPROVED", steward_tag)
-                    audit_service.log_decision(
-                        user_email=current_user["email"], schema=active_item.schema_name,
-                        table=active_item.table_name, column=active_item.column_name,
-                        previous_tag="None", new_tag=steward_tag, decision="MODIFY",
-                        comments=steward_comments, ai_recommendation=active_item.suggested_tag,
-                        confidence_score=active_item.confidence_score
-                    )
-                elif "Escalate" in decision_action:
-                    gov_service.update_status(active_item.id, "ESCALATED")
-                    audit_service.log_decision(
-                        user_email=current_user["email"], schema=active_item.schema_name,
-                        table=active_item.table_name, column=active_item.column_name,
-                        previous_tag="None", new_tag="None", decision="ESCALATE",
-                        comments=steward_comments, ai_recommendation=active_item.suggested_tag,
-                        confidence_score=active_item.confidence_score
-                    )
+                    # Backend updates
+                    if "Approve" in decision_action:
+                        uc_service.apply_column_tag(active_item.schema_name, active_item.table_name, active_item.column_name, steward_tag, current_user["email"])
+                        gov_service.update_status(active_item.id, "APPROVED", steward_tag)
+                        audit_service.log_decision(
+                            user_email=current_user["email"], schema=active_item.schema_name,
+                            table=active_item.table_name, column=active_item.column_name,
+                            previous_tag="None", new_tag=steward_tag, decision="APPROVE",
+                            comments=steward_comments, ai_recommendation=active_item.suggested_tag,
+                            confidence_score=active_item.confidence_score
+                        )
+                    elif "Reject" in decision_action:
+                        gov_service.update_status(active_item.id, "REJECTED")
+                        audit_service.log_decision(
+                            user_email=current_user["email"], schema=active_item.schema_name,
+                            table=active_item.table_name, column=active_item.column_name,
+                            previous_tag="None", new_tag="None", decision="REJECT",
+                            comments=steward_comments, ai_recommendation=active_item.suggested_tag,
+                            confidence_score=active_item.confidence_score
+                        )
+                    elif "Modify" in decision_action or "Merge" in decision_action:
+                        gov_service.update_status(active_item.id, "APPROVED", steward_tag)
+                        audit_service.log_decision(
+                            user_email=current_user["email"], schema=active_item.schema_name,
+                            table=active_item.table_name, column=active_item.column_name,
+                            previous_tag="None", new_tag=steward_tag, decision="MODIFY",
+                            comments=steward_comments, ai_recommendation=active_item.suggested_tag,
+                            confidence_score=active_item.confidence_score
+                        )
+                    elif "Escalate" in decision_action:
+                        gov_service.update_status(active_item.id, "ESCALATED")
+                        audit_service.log_decision(
+                            user_email=current_user["email"], schema=active_item.schema_name,
+                            table=active_item.table_name, column=active_item.column_name,
+                            previous_tag="None", new_tag="None", decision="ESCALATE",
+                            comments=steward_comments, ai_recommendation=active_item.suggested_tag,
+                            confidence_score=active_item.confidence_score
+                        )
 
-                st.success("Decision committed. Metadata stores updated.")
-                st.session_state.active_review_id  = None
-                st.session_state.show_approval_flow = False
-                time.sleep(0.8)
-                st.rerun()
-
-            st.markdown("</div>", unsafe_allow_html=True)
+                    st.success("Decision committed. Metadata stores updated.")
+                    st.session_state.active_review_id  = None
+                    st.session_state.show_approval_flow = False
+                    time.sleep(0.8)
+                    st.rerun()
