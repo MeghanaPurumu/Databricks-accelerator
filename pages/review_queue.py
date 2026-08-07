@@ -7,6 +7,7 @@ from services.audit_service import AuditService
 from utils.permissions import check_permission_page, has_permission
 from utils.auth import get_current_user
 from utils.helpers import render_top_header, get_status_badge, format_confidence, render_confidence_ring, get_category_color, get_category_badge
+from utils.db import get_connection_status
 
 check_permission_page("view_queue")
 render_top_header()
@@ -22,6 +23,48 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);margin-bottom:0;'>"
     "Inspect, verify, and classify sensitive columns using ontology matching and catalog similarity analytics."
     "</p>",
+    unsafe_allow_html=True
+)
+
+# ── Databricks Agent Connection Banner ────────────────────────────────────────
+_conn = get_connection_status()
+_is_live = _conn.get("connected", False)
+_live_mode = st.session_state.get("uc_live_mode", False)
+
+if _is_live and _live_mode:
+    _badge_color = "#0F9D58"
+    _badge_dot   = "#0F9D58"
+    _badge_label = "Live Databricks Agent Connected"
+    _badge_src   = "Confidence scores sourced from live <code style='background:#DCFCE7;padding:1px 4px;border-radius:2px;'>classification_results</code> table"
+    _badge_bg    = "#F0FDF4"
+    _badge_border= "#BBF7D0"
+elif _is_live:
+    _badge_color = "#1A73E8"
+    _badge_dot   = "#1A73E8"
+    _badge_label = "Databricks Connected — Rule-Based Classification"
+    _badge_src   = "Live catalog discovered but confidence scores from local rule engine (classification_results not loaded)"
+    _badge_bg    = "#EFF6FF"
+    _badge_border= "#BFDBFE"
+else:
+    _badge_color = "#F59E0B"
+    _badge_dot   = "#F59E0B"
+    _badge_label = "Offline Mode — Fallback Data"
+    _badge_src   = "Confidence scores from local rule-based classifier (no Databricks connection)"
+    _badge_bg    = "#FFFBEB"
+    _badge_border= "#FDE68A"
+
+st.markdown(
+    f"""
+    <div style='display:flex; align-items:center; justify-content:space-between;
+                background:{_badge_bg}; border:1px solid {_badge_border};
+                border-radius:6px; padding:10px 16px; margin:12px 0 16px;'>
+        <div style='display:flex; align-items:center; gap:8px;'>
+            <span style='color:{_badge_dot}; font-size:10px;'>&#9679;</span>
+            <span style='font-size:12px; font-weight:600; color:{_badge_color};'>{_badge_label}</span>
+        </div>
+        <div style='font-size:11px; color:var(--ink-muted);'>{_badge_src}</div>
+    </div>
+    """,
     unsafe_allow_html=True
 )
 
@@ -277,11 +320,14 @@ if active_id:
                         unsafe_allow_html=True
                     )
                 with col_reason_ring:
+                    _conf_source = "Live Agent" if (st.session_state.get('uc_live_mode') and _is_live) else "Rule Engine"
+                    _conf_src_color = "#0F9D58" if _conf_source == "Live Agent" else "#F59E0B"
                     st.markdown(
                         f"<div style='text-align: center;'>"
                         f"{render_confidence_ring(active_item.confidence_score, size=64)}"
                         f"<div style='font-size: 11px; color: var(--ink-muted); font-weight: 600; margin-top: 4px;'>AI Confidence</div>"
                         f"<div class='mono-text' style='font-size: 14px; font-weight: 700; color: var(--ink);'>{active_item.confidence_score*100:.1f}%</div>"
+                        f"<div style='font-size:9px; color:{_conf_src_color}; margin-top:4px; font-weight:600;'>{_conf_source}</div>"
                         f"</div>",
                         unsafe_allow_html=True
                     )

@@ -359,12 +359,16 @@ def get_status_badge(status: str) -> str:
     s = status.lower()
     if "pending" in s:
         return '<span class="badge badge-pending">Pending Review</span>'
+    elif "classified" in s and "un" not in s:
+        return '<span class="badge badge-approved">Classified</span>'
     elif "approve" in s:
         return '<span class="badge badge-approved">Approved</span>'
     elif "reject" in s:
         return '<span class="badge badge-rejected">Rejected</span>'
     elif "escalat" in s:
         return '<span class="badge badge-escalated">Escalated</span>'
+    elif "unclassified" in s:
+        return '<span class="badge badge-escalated">Unclassified</span>'
     return f'<span class="badge">{status}</span>'
 
 

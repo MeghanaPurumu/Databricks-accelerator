@@ -17,24 +17,71 @@ st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 
 
 audit_service = AuditService()
 
-# Show warning if running inside Databricks but Audit table connection is mock
+# ── Connection Mode Status Banner ─────────────────────────────────────────────
 from utils.db import is_databricks, get_connection_status
-if is_databricks() and not audit_service.using_live_db:
-    conn_status = get_connection_status()
-    st.warning(
-        "⚠️ **Running in Databricks but Audit Log is in Session-only Fallback Mode.**\n\n"
-        f"This occurs because the table `{audit_service.table_name}` does not exist and the app could not create it. "
-        "Please ensure your user/service identity has **`CREATE TABLE`** privileges on the schema `dev.brz` in Unity Catalog. "
-        "Ask your administrator to run the following statement:\n"
-        "```sql\n"
-        f"GRANT CREATE TABLE ON SCHEMA {os.environ.get('DATABRICKS_CATALOG', 'dev')}.{os.environ.get('DATABRICKS_SCHEMA', 'brz')} TO `your-databricks-email@company.com`;\n"
-        "```"
+conn = get_connection_status()
+
+if audit_service.using_live_db:
+    # Live Delta table connected
+    st.markdown(
+        f"""
+        <div style='display:flex; align-items:center; gap:10px; background:#F0FDF4;
+                    border:1px solid #BBF7D0; border-radius:6px; padding:10px 16px; margin-bottom:16px;'>
+            <span style='color:#0F9D58; font-size:12px;'>&#9679;</span>
+            <div>
+                <span style='font-size:12px; font-weight:600; color:#14532D;'>Live Delta Table Connected</span>
+                <span style='font-size:11px; color:#166534; margin-left:8px;'>
+                    Reading from <code style='background:#DCFCE7; padding:1px 4px; border-radius:2px;'>{audit_service.table_name}</code>
+                </span>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+elif is_databricks():
+    # On Databricks but table missing or no CREATE privileges
+    st.markdown(
+        f"""
+        <div style='background:#FFFBEB; border:1px solid #FDE68A; border-radius:6px; padding:12px 16px; margin-bottom:16px;'>
+            <div style='display:flex; align-items:center; gap:8px; margin-bottom:6px;'>
+                <span style='color:#F59E0B; font-size:12px;'>&#9679;</span>
+                <span style='font-size:12px; font-weight:600; color:#92400E;'>Session Fallback Mode — Audit Log Not Persisted</span>
+            </div>
+            <div style='font-size:12px; color:#78350F;'>
+                The table <code style='background:#FEF3C7; padding:1px 4px; border-radius:2px;'>{audit_service.table_name}</code>
+                does not exist or the app lacks <strong>CREATE TABLE</strong> privileges on
+                <code style='background:#FEF3C7; padding:1px 4px; border-radius:2px;'>{os.environ.get('DATABRICKS_CATALOG', 'dev')}.{os.environ.get('DATABRICKS_SCHEMA', 'brz')}</code>.
+                Audit records are stored in session memory only and will be lost on restart.
+            </div>
+            <div style='font-size:11px; color:#78350F; margin-top:8px; background:#FEF3C7; padding:6px 10px; border-radius:4px; font-family:monospace;'>
+                GRANT CREATE TABLE ON SCHEMA {os.environ.get('DATABRICKS_CATALOG', 'dev')}.{os.environ.get('DATABRICKS_SCHEMA', 'brz')} TO `your-email@company.com`;
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    # Offline / local mode
+    st.markdown(
+        """
+        <div style='display:flex; align-items:center; gap:10px; background:var(--surface-sunken);
+                    border:1px solid var(--border); border-radius:6px; padding:10px 16px; margin-bottom:16px;'>
+            <span style='color:#6B7280; font-size:12px;'>&#9679;</span>
+            <div style='font-size:12px; color:var(--ink-muted);'>
+                <strong>Offline Mode</strong> — Showing session-state audit logs. Connect to Databricks to persist decisions.
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 logs = audit_service.get_audit_history()
 
 if not logs:
     st.info("No audit logs found.")
     st.stop()
+
 
 data = []
 for entry in logs:
