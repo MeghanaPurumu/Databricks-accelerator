@@ -211,8 +211,31 @@ def apply_custom_css():
             font-family: 'JetBrains Mono', 'Courier New', Courier, monospace !important;
             font-size: 12px !important;
         }
+
+        /* ── Suppress Streamlit double-outline wrappers ──────────────────────
+           Streamlit 1.3x wraps column children in stVerticalBlockBorderWrapper
+           which can render a second border on top of our custom .panel-box cards.
+           We reset those to transparent so only our custom card border shows.   */
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            border: none !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            padding: 0 !important;
+        }
+        /* Suppress metric card internal Streamlit borders */
+        [data-testid="stMetric"] {
+            border: none !important;
+            background: transparent !important;
+        }
+        /* Suppress default column gap/border */
+        [data-testid="column"] > div {
+            border: none !important;
+            background: transparent !important;
+        }
         </style>
+    <!-- governance-css-v4 -->
     """, unsafe_allow_html=True)
+
 
 
 def render_confidence_ring(score: float, size: int = 32) -> str:
