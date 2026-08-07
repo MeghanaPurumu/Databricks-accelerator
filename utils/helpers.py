@@ -149,8 +149,8 @@ def apply_custom_css():
             border-bottom: 1px solid var(--border);
         }
 
-        /* Panel box and Streamlit container with border */
-        .panel-box, div[data-testid="stVerticalBlockBorderWrapper"] {
+        /* Panel box */
+        .panel-box {
             background: var(--surface) !important;
             border: 1px solid var(--border) !important;
             border-radius: 6px !important;

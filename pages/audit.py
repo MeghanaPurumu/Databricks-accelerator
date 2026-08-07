@@ -18,7 +18,7 @@ st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 
 audit_service = AuditService()
 
 # ── Connection Mode Status Banner ─────────────────────────────────────────────
-from utils.db import is_databricks, get_connection_status
+from utils.db import is_databricks, get_connection_status, get_spark
 conn = get_connection_status()
 
 if audit_service.using_live_db:
@@ -38,8 +38,8 @@ if audit_service.using_live_db:
         """,
         unsafe_allow_html=True
     )
-elif is_databricks():
-    # On Databricks but table missing or no CREATE privileges
+elif conn.get("has_client") and conn.get("warehouse_id"):
+    # Connected to Databricks with a warehouse but table missing or no CREATE privileges
     st.markdown(
         f"""
         <div style='background:#FFFBEB; border:1px solid #FDE68A; border-radius:6px; padding:12px 16px; margin-bottom:16px;'>
@@ -61,7 +61,7 @@ elif is_databricks():
         unsafe_allow_html=True
     )
 else:
-    # Offline / local mode
+    # Offline / local mode — no live Databricks connection available
     st.markdown(
         """
         <div style='display:flex; align-items:center; gap:10px; background:var(--surface-sunken);
