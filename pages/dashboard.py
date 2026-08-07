@@ -36,7 +36,7 @@ ai_accuracy     = (int((df_audit["decision"] == "APPROVE").sum()) / total_decisi
 override_pct    = (int((df_audit["decision"] == "MODIFY").sum())  / total_decisions * 100) if total_decisions else 0.0
 
 st.markdown(
-    "<h1 style='font-size:24px; font-weight:600; color:#111827; margin-bottom:20px;'>Welcome to GovernX</h1>",
+    "<h1 style='font-size:24px; font-weight:600; color:#111827; margin-bottom:20px;'>Welcome to Governance</h1>",
     unsafe_allow_html=True
 )
 

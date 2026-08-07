@@ -96,7 +96,7 @@ class QAService:
         query_ms = st.session_state.get("qa_last_query_ms")
         timing_str = f"{query_ms:.0f}ms" if query_ms else "N/A"
 
-        prompt = f"""You are GovernX, an AI governance assistant for the Databricks Data Intelligence Platform.
+        prompt = f"""You are Governance, an AI governance assistant for the Databricks Data Intelligence Platform.
 You help data stewards, compliance officers, and data engineers understand data classification, 
 sensitivity tags, audit trails, and governance policies across Unity Catalog.
 

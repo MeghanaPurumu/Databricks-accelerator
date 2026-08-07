@@ -21,7 +21,7 @@ from services.governance_service import GovernanceService
 from utils.helpers import render_sidebar_notifications
 
 st.set_page_config(
-    page_title="GovernX Steward Portal",
+    page_title="Governance Steward Portal",
     page_icon=None,
     layout="wide",
     initial_sidebar_state="expanded"
@@ -61,16 +61,25 @@ pg = st.navigation({
 
 # ---------- Shared sidebar elements ----------
 with st.sidebar:
-    # GovernX branded logo at top of sidebar
+    # Governance branded logo at top of sidebar
     st.markdown(
         """
         <div style="display: flex; align-items: center; gap: 10px; padding: 16px 12px 8px;">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 2L4 7.5V16C4 22.627 9.373 28.5 16 30C22.627 28.5 28 22.627 28 16V7.5L16 2Z" fill="#1A73E8"/>
-                <path d="M16 6L7 10.5V16C7 21.178 11.03 25.8 16 27.2C20.97 25.8 25 21.178 25 16V10.5L16 6Z" fill="#1557B0"/>
-                <path d="M13 15.5L11 13.5L9.5 15L13 18.5L22.5 9L21 7.5L13 15.5Z" fill="white"/>
+                <path d="M16 3L5 8.2V15.5C5 21.6 9.7 27.2 16 29C22.3 27.2 27 21.6 27 15.5V8.2L16 3Z" fill="url(#sidebarShieldGrad)" />
+                <path d="M12 11H20V13H12V11Z" fill="#FFFFFF" />
+                <path d="M12 15H20V17H12V15Z" fill="#FFFFFF" />
+                <path d="M12 19H20V21H12V19Z" fill="#FFFFFF" />
+                <circle cx="21" cy="21" r="5" fill="#0F9D58" />
+                <path d="M19.5 21L20.5 22L22.5 20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                <defs>
+                    <linearGradient id="sidebarShieldGrad" x1="5" y1="3" x2="27" y2="29" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#1E3A8A"/>
+                        <stop offset="1" stop-color="#3B82F6"/>
+                    </linearGradient>
+                </defs>
             </svg>
-            <span style="font-weight: 800; font-size: 16px; color: #1A73E8; letter-spacing: -0.5px; font-family: 'Inter', sans-serif;">GovernX</span>
+            <span style="font-weight: 800; font-size: 16px; color: #1E3A8A; letter-spacing: -0.5px; font-family: 'Inter', sans-serif;">Governance</span>
         </div>
         """,
         unsafe_allow_html=True
