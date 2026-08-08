@@ -20,6 +20,7 @@ audit_service = AuditService()
 from utils.db import is_databricks, get_connection_status
 conn = get_connection_status()
 in_databricks = conn.get("connected", False)
+current_identity = conn.get("current_identity") or "&lt;your-service-principal-or-email&gt;"
 
 if audit_service.using_live_db:
     # State 1 ✅  Live Delta table is connected
@@ -44,6 +45,16 @@ elif in_databricks:
     import os as _os
     _catalog = _os.environ.get("DATABRICKS_CATALOG", "dev")
     _schema  = _os.environ.get("DATABRICKS_SCHEMA",  "brz")
+    
+    error_detail_html = ""
+    if hasattr(audit_service, "bootstrap_error") and audit_service.bootstrap_error:
+        error_detail_html = f"""
+        <div style='margin-top: 10px; padding: 8px 12px; background: #FEF2F2; border: 1px solid #FCA5A5;
+                    border-radius: 4px; font-family:"JetBrains Mono",monospace; font-size: 11px; color: #991B1B;'>
+            <strong>Error details:</strong> {audit_service.bootstrap_error}
+        </div>
+        """
+        
     st.markdown(
         f"""
         <div style='background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px;
@@ -61,8 +72,9 @@ elif in_databricks:
             </p>
             <div style='background:#FEF9C3; border:1px solid #FDE68A; border-radius:5px;
                         padding:8px 12px; font-family:"JetBrains Mono",monospace; font-size:12px; color:#713F12;'>
-                GRANT CREATE TABLE ON SCHEMA {_catalog}.{_schema} TO &lt;your-service-principal-or-email&gt;;
+                GRANT CREATE TABLE ON SCHEMA {_catalog}.{_schema} TO `{current_identity}`;
             </div>
+            {error_detail_html}
             <p style='font-size:11px; color:#A16207; margin:8px 0 0;'>
                 Until resolved, audit logs are stored in memory for this session only and will not persist across restarts.
             </p>

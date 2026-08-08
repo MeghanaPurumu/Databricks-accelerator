@@ -74,6 +74,8 @@ class AuditService:
         schema = os.environ.get("DATABRICKS_SCHEMA", "brz")
         self.table_name = f"{catalog}.{schema}.governance_audit"
         self.using_live_db = False
+        self.bootstrap_error = None
+        self.conn_status = get_connection_status()
         
         # Seed local session state unconditionally as a fallback
         if "audit_logs" not in st.session_state:
@@ -95,7 +97,7 @@ class AuditService:
                 self.spark.sql(f"DESCRIBE TABLE {self.table_name}")
                 logger.info(f"Connected to live Delta table: {self.table_name}")
                 self.using_live_db = True
-            except Exception:
+            except Exception as e1:
                 # Table does not exist; attempt to bootstrap it
                 try:
                     logger.info(f"Bootstrapping live Delta table: {self.table_name}")
@@ -108,8 +110,14 @@ class AuditService:
                     df.write.format("delta").mode("overwrite").saveAsTable(self.table_name)
                     logger.info(f"Delta table '{self.table_name}' bootstrapped successfully.")
                     self.using_live_db = True
-                except Exception as e:
-                    logger.warning(f"Failed to bootstrap audit Delta table: {e}. Will use session state fallback.")
+                except Exception as e2:
+                    self.bootstrap_error = str(e2)
+                    logger.warning(f"Failed to bootstrap audit Delta table: {e2}. Will use session state fallback.")
+        else:
+            if self.conn_status.get("error"):
+                self.bootstrap_error = f"No Spark session. Last connection error: {self.conn_status['error']}"
+            else:
+                self.bootstrap_error = "No active Spark Session or SQL Warehouse connection could be established."
 
     def _row_to_entry(self, row) -> AuditEntry:
         """Parses a Spark Row object back into a structured AuditEntry Pydantic model."""

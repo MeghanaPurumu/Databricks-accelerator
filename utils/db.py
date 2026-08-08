@@ -155,10 +155,11 @@ class DatabricksSQLWrapper:
             self.sql(insert_query)
 
 _last_connection_error = None
+_current_identity = None
 
 def is_databricks() -> bool:
     """Checks if we are running in an active Databricks environment with live connection."""
-    global _checked_databricks, _spark_session, _workspace_client, _warehouse_id, _last_connection_error
+    global _checked_databricks, _spark_session, _workspace_client, _warehouse_id, _last_connection_error, _current_identity
     if not _checked_databricks:
         # ── Spark Session check ────────────────────────────────────────────────
         # Only use active SparkSession if running inside a real Databricks Runtime (driver node)
@@ -180,6 +181,13 @@ def is_databricks() -> bool:
             from databricks.sdk import WorkspaceClient
             client = WorkspaceClient()
             _workspace_client = client
+            
+            # Retrieve current identity
+            try:
+                me = client.current_user.me()
+                _current_identity = me.user_name
+            except Exception as me_err:
+                logger.debug(f"WorkspaceClient current_user.me() failed: {me_err}")
             
             # Retrieve SQL Warehouse ID if configured or automatically discover it
             wh_id = os.environ.get("DATABRICKS_WAREHOUSE_ID")
@@ -221,7 +229,7 @@ def get_workspace_client():
 
 def get_connection_status():
     """Returns connection diagnostics dictionary."""
-    global _checked_databricks, _workspace_client, _warehouse_id, _spark_session, _last_connection_error
+    global _checked_databricks, _workspace_client, _warehouse_id, _spark_session, _last_connection_error, _current_identity
     is_databricks() # ensure checked
     return {
         "checked": _checked_databricks,
@@ -229,5 +237,6 @@ def get_connection_status():
         "has_client": _workspace_client is not None,
         "has_spark": _spark_session is not None,
         "warehouse_id": _warehouse_id,
+        "current_identity": _current_identity,
         "error": _last_connection_error
     }
