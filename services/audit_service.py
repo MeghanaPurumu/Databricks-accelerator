@@ -6,7 +6,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import List
 from models.audit import AuditEntry
-from utils.db import get_spark
+from utils.db import get_spark, get_connection_status
 
 logger = logging.getLogger("audit_service")
 
