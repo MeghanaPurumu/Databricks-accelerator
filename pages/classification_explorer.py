@@ -13,7 +13,6 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);'>Browse active sensitive data tags registered across Unity Catalog &mdash; PII, PHI, Financial.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 uc_service     = UnityCatalogService()
 catalog_results = uc_service.search_catalog("")
@@ -70,7 +69,6 @@ st.markdown(
     f"&#9679; Data source: <strong>{src_label}</strong></div>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:4px 0 20px;'>", unsafe_allow_html=True)
 
 # ── Category cards ────────────────────────────────────────────────────────────
 col_pii, col_phi, col_other = st.columns(3)
@@ -79,7 +77,7 @@ def tag_category_card(col, heading, tag_df, accent_color):
     tags = tag_df["tag"].unique() if not tag_df.empty else []
     with col:
         st.markdown(
-            f"<div class='metric-card' style='border-top:3px solid {accent_color};background:var(--surface);border:1px solid var(--border);border-top:3px solid {accent_color};border-radius:6px;padding:16px;'>"
+            f"<div class='metric-card' style='border-top:3px solid {accent_color};background:var(--surface);border-radius:8px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.07);'>"
             f"<div style='font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;letter-spacing:0.05em;'>{heading}</div>"
             f"<div style='font-size:28px;font-weight:700;color:{accent_color};margin:4px 0 12px;'>{len(tags)}</div>",
             unsafe_allow_html=True
@@ -87,7 +85,7 @@ def tag_category_card(col, heading, tag_df, accent_color):
         for t in sorted(tags):
             count = len(tag_df[tag_df["tag"] == t])
             st.markdown(
-                f"<div style='font-size:12px;color:var(--ink);padding:4px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;'>"
+                f"<div style='font-size:12px;color:var(--ink);padding:4px 0;display:flex;justify-content:space-between;align-items:center;'>"
                 f"<code class='mono-text' style='background:var(--surface-sunken);padding:2px 6px;border-radius:3px;font-size:11px;'>{t}</code>"
                 f"<span class='mono-text' style='color:var(--ink-muted);font-size:11px;'>{count} col(s)</span>"
                 f"</div>",
@@ -99,7 +97,6 @@ tag_category_card(col_pii,   "PII Classifications",       pii_df,       "#7C3AED
 tag_category_card(col_phi,   "PHI Classifications",       phi_df,       "#DB2777")
 tag_category_card(col_other, "Financial / Other Tags",    financial_df, "#0891B2")
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:20px 0;'>", unsafe_allow_html=True)
 st.markdown("<div class='section-title'>All Active Tagged Columns</div>", unsafe_allow_html=True)
 
 # Build display DataFrame with all needed columns

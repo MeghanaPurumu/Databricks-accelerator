@@ -13,7 +13,6 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);'>Immutable record of all steward tagging decisions, modifications, and escalations.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 audit_service = AuditService()
 
@@ -147,16 +146,12 @@ if keyword:
         filtered_df["Comments"].str.lower().str.contains(kw)
     ]
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 16px;'>", unsafe_allow_html=True)
-
 # ── Summary Metrics ────────────────────────────────────────────────────────────
 m1, m2, m3, m4 = st.columns(4)
 m1.metric("Total Records",  len(filtered_df))
 m2.metric("Approvals",      len(filtered_df[filtered_df["Decision"] == "APPROVE"]))
 m3.metric("Rejections",     len(filtered_df[filtered_df["Decision"] == "REJECT"]))
 m4.metric("Modifications",  len(filtered_df[filtered_df["Decision"] == "MODIFY"]))
-
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 16px;'>", unsafe_allow_html=True)
 
 st.markdown(f"<div style='font-size:13px;color:var(--ink-muted);margin-bottom:8px;'>Showing {len(filtered_df)} governance events</div>", unsafe_allow_html=True)
 
@@ -182,7 +177,6 @@ st.dataframe(
     use_container_width=True
 )
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:16px 0;'>", unsafe_allow_html=True)
 csv_data = filtered_df.to_csv(index=False).encode("utf-8")
 st.download_button(
     label="Export Audit Logs (CSV)",

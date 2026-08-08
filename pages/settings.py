@@ -10,7 +10,6 @@ st.markdown(
     "<p style='font-size:13px;color:#6B7280;'>Configure governance thresholds, notification preferences, and default workspace scope.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid #E5E7EB;margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 st.markdown("<div class='section-title'>Classification Thresholds</div>", unsafe_allow_html=True)
 
@@ -30,7 +29,6 @@ auto_approval_threshold = st.slider(
     help="Items at or above this confidence level are automatically approved without steward review."
 )
 
-st.markdown("<hr style='border:0;border-top:1px solid #E5E7EB;margin:16px 0;'>", unsafe_allow_html=True)
 st.markdown("<div class='section-title'>Workspace Configuration</div>", unsafe_allow_html=True)
 
 from utils.db import get_connection_status

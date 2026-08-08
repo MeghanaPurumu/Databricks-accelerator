@@ -219,8 +219,13 @@ class GovernanceService:
 
         # Only seed session state once per session
         if "pending_reviews" not in st.session_state:
-            items = self._scan_live_catalog() if (self.client or self.spark) else []
-            if not items:
+            live_items = self._scan_live_catalog() if (self.client or self.spark) else []
+            if live_items:
+                # Mark live mode so Review Queue banner reflects real connection
+                st.session_state.uc_live_mode = True
+                items = live_items
+            else:
+                st.session_state.uc_live_mode = False
                 items = [ClassificationItem(**item) for item in INITIAL_PENDING_REVIEWS]
             st.session_state.pending_reviews = {item.id: item for item in items}
 

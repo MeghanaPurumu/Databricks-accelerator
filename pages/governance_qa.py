@@ -13,7 +13,6 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);'>Ask governance questions about your data catalog, classification rules, and compliance obligations.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 16px;'>", unsafe_allow_html=True)
 
 qa_service = QAService()
 
@@ -40,8 +39,7 @@ else:
 st.markdown(
     f"""
     <div style='display:flex; align-items:center; justify-content:space-between;
-                background:var(--surface-sunken); border:1px solid var(--border);
-                border-radius:6px; padding:10px 16px; margin-bottom:16px;'>
+                background:var(--surface-sunken); padding:10px 16px; margin-bottom:16px;'>
         <div style='display:flex; align-items:center; gap:16px;'>
             <div style='display:flex; align-items:center; gap:6px;'>
                 <span style='color:{status_color}; font-size:10px;'>{status_icon}</span>
@@ -99,8 +97,6 @@ for i, q in enumerate(suggested):
             })
             st.rerun()
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0;'>", unsafe_allow_html=True)
-
 
 # ── Chat bubble renderer ──────────────────────────────────────────────────────
 def render_chat_bubble(role: str, content: str, elapsed_ms: float = None):
@@ -109,7 +105,7 @@ def render_chat_bubble(role: str, content: str, elapsed_ms: float = None):
             f"<div style='display: flex; justify-content: flex-end; margin-bottom: 12px;'>"
             f"<div style='background-color: var(--surface-sunken); color: var(--ink); "
             f"padding: 12px 16px; border-radius: 8px 8px 0 8px; max-width: 70%; "
-            f"font-size: 13px; border: 1px solid var(--border);'>"
+            f"font-size: 13px;'>"
             f"{content}"
             f"</div>"
             f"</div>",
@@ -130,7 +126,7 @@ def render_chat_bubble(role: str, content: str, elapsed_ms: float = None):
             f"<div style='display: flex; justify-content: flex-start; margin-bottom: 12px;'>"
             f"<div style='background-color: var(--surface); color: var(--ink); "
             f"padding: 12px 16px; border-radius: 8px 8px 8px 0; max-width: 75%; "
-            f"font-size: 13px; border: 1px solid var(--border); border-left: 3px solid var(--primary);'>"
+            f"font-size: 13px; border-left: 3px solid var(--primary);'>"
             f"{content}"
             f"{timing_badge}"
             f"</div>"

@@ -12,7 +12,6 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);'>Search Unity Catalog registered assets, tags, masking rules, and access control policies.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 uc_service   = UnityCatalogService()
 search_query = st.text_input(
@@ -21,7 +20,6 @@ search_query = st.text_input(
     label_visibility="collapsed"
 )
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0;'>", unsafe_allow_html=True)
 
 results = uc_service.search_catalog(search_query)
 
@@ -50,7 +48,6 @@ if results:
     hdr[1].markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;'>Active Tag</div>", unsafe_allow_html=True)
     hdr[2].markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;'>Status</div>", unsafe_allow_html=True)
     hdr[3].markdown("<div style='font-size:11px;font-weight:600;color:var(--ink-muted);text-transform:uppercase;'>Security Policies</div>", unsafe_allow_html=True)
-    st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:4px 0;'>", unsafe_allow_html=True)
 
     for idx, row in df_res.iterrows():
         c_path, c_tag, c_metrics, c_policy = st.columns([4, 3, 2, 3])

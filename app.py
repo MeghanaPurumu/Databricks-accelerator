@@ -22,7 +22,7 @@ from utils.helpers import render_sidebar_notifications
 
 st.set_page_config(
     page_title="Governance Steward Portal",
-    page_icon=None,
+    page_icon="⚖️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -66,31 +66,38 @@ with st.sidebar:
         """
         <div style="display: flex; align-items: center; gap: 10px; padding: 16px 12px 8px;">
             <svg width="26" height="26" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M16 3L5 8.2V15.5C5 21.6 9.7 27.2 16 29C22.3 27.2 27 21.6 27 15.5V8.2L16 3Z" fill="url(#sidebarShieldGrad)" />
-                <path d="M12 11H20V13H12V11Z" fill="#FFFFFF" />
-                <path d="M12 15H20V17H12V15Z" fill="#FFFFFF" />
-                <path d="M12 19H20V21H12V19Z" fill="#FFFFFF" />
-                <circle cx="21" cy="21" r="5" fill="#0F9D58" />
-                <path d="M19.5 21L20.5 22L22.5 20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                <defs>
-                    <linearGradient id="sidebarShieldGrad" x1="5" y1="3" x2="27" y2="29" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#1E3A8A"/>
-                        <stop offset="1" stop-color="#3B82F6"/>
-                    </linearGradient>
-                </defs>
+                <!-- Pillar base -->
+                <rect x="14" y="26" width="4" height="3" rx="1" fill="#1E3A8A"/>
+                <rect x="9" y="28" width="14" height="2" rx="1" fill="#1E3A8A"/>
+                <!-- Center pole -->
+                <rect x="15.5" y="8" width="1" height="18" fill="#3B82F6"/>
+                <!-- Crossbar -->
+                <rect x="6" y="8" width="20" height="1.5" rx="0.75" fill="#1E3A8A"/>
+                <!-- Top knob -->
+                <circle cx="16" cy="6.5" r="2" fill="#1E3A8A"/>
+                <!-- Left pan chain -->
+                <line x1="9" y1="9.5" x2="7" y2="17" stroke="#3B82F6" stroke-width="1"/>
+                <line x1="9" y1="9.5" x2="11" y2="17" stroke="#3B82F6" stroke-width="1"/>
+                <!-- Left pan -->
+                <path d="M5.5 17 Q7 20 8.5 17" fill="#BFDBFE" stroke="#3B82F6" stroke-width="1"/>
+                <!-- Right pan chain -->
+                <line x1="23" y1="9.5" x2="21" y2="17" stroke="#3B82F6" stroke-width="1"/>
+                <line x1="23" y1="9.5" x2="25" y2="17" stroke="#3B82F6" stroke-width="1"/>
+                <!-- Right pan -->
+                <path d="M19.5 17 Q21 20 22.5 17" fill="#BFDBFE" stroke="#3B82F6" stroke-width="1"/>
             </svg>
-            <span style="font-weight: 800; font-size: 16px; color: #1E3A8A; letter-spacing: -0.5px; font-family: 'Inter', sans-serif;">Governance</span>
+            <span style="font-weight: 700; font-size: 15px; color: #1E3A8A; letter-spacing: -0.3px; font-family: 'Inter', sans-serif;">Governance</span>
         </div>
         """,
         unsafe_allow_html=True
     )
-    
-    # Databricks style "+ New" button mockup at the top
+
+    # New Action button
     st.markdown(
         """
         <div style="padding: 4px 12px 12px;">
-            <div style="background-color: #FCE8E6; color: #C5221F; padding: 8px 16px; border-radius: 18px; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; border: 1px solid #FAD2CF;">
-                <span style="font-size: 16px; font-weight: 400; line-height: 1;">+</span> New Action
+            <div style="background: linear-gradient(135deg,#1E3A8A,#3B82F6); color:#fff; padding: 8px 16px; border-radius: 6px; font-weight: 600; font-size: 13px; display: flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer;">
+                <span style="font-size: 16px; font-weight: 300; line-height: 1;">+</span> New Action
             </div>
         </div>
         """,

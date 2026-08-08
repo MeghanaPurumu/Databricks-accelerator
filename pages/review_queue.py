@@ -141,7 +141,6 @@ if st.session_state.status_filter:   filtered_df = filtered_df[filtered_df["Stat
 if st.session_state.search_col:      filtered_df = filtered_df[filtered_df["Column"].str.contains(st.session_state.search_col, case=False)]
 filtered_df = filtered_df[filtered_df["Confidence"] >= st.session_state.conf_filter]
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0;'>", unsafe_allow_html=True)
 
 # ── Bulk Actions ──────────────────────────────────────────────────────────────
 st.markdown("<div class='section-title'>Review Queue</div>", unsafe_allow_html=True)
@@ -156,7 +155,7 @@ hdr[1].markdown("<div style='font-size:12px;font-weight:600;color:var(--ink-mute
 hdr[2].markdown("<div style='font-size:12px;font-weight:600;color:var(--ink-muted);'>Classification Suggestion</div>", unsafe_allow_html=True)
 hdr[3].markdown("<div style='font-size:12px;font-weight:600;color:var(--ink-muted);'>Priority &amp; Confidence</div>", unsafe_allow_html=True)
 hdr[4].markdown("<div style='font-size:12px;font-weight:600;color:var(--ink-muted);'>Action</div>", unsafe_allow_html=True)
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:4px 0;'>", unsafe_allow_html=True)
+st.markdown("<div style='height:1px;background:var(--border);margin:4px 0 8px;'></div>", unsafe_allow_html=True)
 
 if filtered_df.empty:
     st.info("No items match your filters. Try widening the confidence range.")
@@ -272,7 +271,7 @@ if active_id:
             }
             for k, v in details.items():
                 st.markdown(
-                    f"<div style='display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px;'>"
+                    f"<div style='display:flex;justify-content:space-between;padding:5px 0;font-size:13px;'>"
                     f"<span style='color:var(--ink-muted);'>{k}</span>"
                     f"<span style='color:var(--ink);font-weight:500;' class='mono-val'>{v}</span>"
                     f"</div>",

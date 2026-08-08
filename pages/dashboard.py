@@ -36,7 +36,7 @@ ai_accuracy     = (int((df_audit["decision"] == "APPROVE").sum()) / total_decisi
 override_pct    = (int((df_audit["decision"] == "MODIFY").sum())  / total_decisions * 100) if total_decisions else 0.0
 
 st.markdown(
-    "<h1 style='font-size:24px; font-weight:600; color:#111827; margin-bottom:20px;'>Welcome to Governance</h1>",
+    "<h1 style='font-size:24px; font-weight:700; color:#111827; margin:0 0 20px;'>Welcome to Governance</h1>",
     unsafe_allow_html=True
 )
 
@@ -150,7 +150,7 @@ with col_right:
         st.markdown("</div>", unsafe_allow_html=True)
         st.info("No audited logs recorded.")
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:24px 0 20px;'>", unsafe_allow_html=True)
+st.markdown("<div style='margin:24px 0 20px;'></div>", unsafe_allow_html=True)
 
 # ── Charts ────────────────────────────────────────────────────────────────────
 st.markdown("<div class='section-title'>Classification Analytics</div>", unsafe_allow_html=True)

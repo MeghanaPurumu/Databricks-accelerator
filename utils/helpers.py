@@ -295,57 +295,8 @@ def get_category_badge(category: str) -> str:
 
 
 def render_top_header():
-    """Renders the Governance top header bar."""
+    """Applies shared CSS. Header bar removed — sidebar provides all branding."""
     apply_custom_css()
-
-    current_email = st.session_state.get("current_user_email", "steward@enterprise.com")
-    current_role = st.session_state.get("current_user_role", "Governance Steward")
-    initials = "".join([p[0].upper() for p in current_email.split("@")[0].split(".")][:2])
-
-    st.markdown(
-        f"""
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; border-radius: 6px; background: #FFFFFF; height: 52px; margin-bottom: 24px;">
-            <!-- Left: Governance Logo & Wordmark -->
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 3L5 8.2V15.5C5 21.6 9.7 27.2 16 29C22.3 27.2 27 21.6 27 15.5V8.2L16 3Z" fill="url(#headerShieldGrad)" />
-                    <path d="M12 11H20V13H12V11Z" fill="#FFFFFF" />
-                    <path d="M12 15H20V17H12V15Z" fill="#FFFFFF" />
-                    <path d="M12 19H20V21H12V19Z" fill="#FFFFFF" />
-                    <circle cx="21" cy="21" r="5" fill="#0F9D58" />
-                    <path d="M19.5 21L20.5 22L22.5 20" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-                    <defs>
-                        <linearGradient id="headerShieldGrad" x1="5" y1="3" x2="27" y2="29" gradientUnits="userSpaceOnUse">
-                            <stop stop-color="#1E3A8A"/>
-                            <stop offset="1" stop-color="#3B82F6"/>
-                        </linearGradient>
-                    </defs>
-                </svg>
-                <span style="font-weight: 800; font-size: 17px; color: #1E3A8A; letter-spacing: -0.5px; font-family: 'Inter', sans-serif;">Governance</span>
-            </div>
-            <!-- Center: Search box mockup -->
-            <div style="flex: 1; max-width: 480px; margin: 0 24px; position: relative;">
-                <input type="text" placeholder="Search data, notebooks, recents, and more... (Ctrl+P)" style="width: 100%; border: 1px solid var(--border); padding: 6px 12px 6px 32px; border-radius: 6px; font-size: 12px; background: var(--surface-sunken); color: var(--ink);" />
-                <svg style="position: absolute; left: 10px; top: 8px; width: 14px; height: 14px; fill: #9CA3AF;" viewBox="0 0 20 20"><path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/></svg>
-            </div>
-            <!-- Right: User Avatar -->
-            <div style="display: flex; align-items: center; gap: 16px;">
-                <span style="font-size: 12px; color: var(--primary); font-weight: 500; cursor: pointer;">Verify identity</span>
-                <span style="font-size: 12px; color: var(--ink-muted); font-weight: 500; cursor: pointer;">workspace v</span>
-                <div style="display:flex; align-items:center; gap:8px;">
-                    <div style="text-align:right;">
-                        <div style="font-size:12px; font-weight:600; color:var(--ink);">{current_email}</div>
-                        <div style="font-size:10px; color:var(--ink-muted);">{current_role}</div>
-                    </div>
-                    <div style="width:28px; height:28px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:11px; flex-shrink:0;">
-                        {initials}
-                    </div>
-                </div>
-            </div>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 
 def render_sidebar_notifications():
     """Renders a notification panel inside the sidebar."""

@@ -14,7 +14,6 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);'>Compliance metrics, coverage analytics, and governance activity trends.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 gov_service   = GovernanceService()
 audit_service = AuditService()
@@ -42,9 +41,8 @@ c2.metric("AI Recommendation Accuracy", f"{approval_rate:.1f}%")
 c3.metric("Manual Override Rate",       f"{override_rate:.1f}%")
 c4.metric("Pending Queue",              pending_reviews)
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
-
 # ── Charts ────────────────────────────────────────────────────────────────────
+st.markdown("<div style='margin-top:20px;'></div>", unsafe_allow_html=True)
 st.markdown("<div class='section-title'>Sensitive Data Distribution</div>", unsafe_allow_html=True)
 pii_count = len(df_items[df_items["suggested_tag"].str.contains("pii", case=False)])
 phi_count = len(df_items[df_items["suggested_tag"].str.contains("phi", case=False)])
@@ -67,8 +65,6 @@ fig_dist.update_layout(
 )
 st.plotly_chart(fig_dist, use_container_width=True)
 
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
-
 st.markdown("<div class='section-title'>Governance Activity Over Time</div>", unsafe_allow_html=True)
 if not df_audit.empty:
     df_audit["day"] = pd.to_datetime(df_audit["timestamp"]).dt.date
@@ -86,8 +82,6 @@ if not df_audit.empty:
     st.plotly_chart(fig_line, use_container_width=True)
 else:
     st.info("No governance decisions recorded yet.")
-
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
 
 st.markdown("<div class='section-title'>Export Report Data</div>", unsafe_allow_html=True)
 csv_data = df_items.to_csv(index=False).encode("utf-8")
