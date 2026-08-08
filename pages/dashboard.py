@@ -84,26 +84,26 @@ col_left, col_right = st.columns(2)
 
 with col_left:
     st.markdown(
-        "<div style='background: #F9FAFB; padding: 12px 16px; border: 1px solid #E2E5ED; border-top-left-radius: 6px; border-top-right-radius: 6px; font-size: 13px; font-weight: 600; color: #374151; border-bottom: none;'>"
-        "Pending Sensitivity Queue"
-        "</div>",
+        "<div style='font-size:13px; font-weight:600; color:#374151; margin-bottom:10px;'>Pending Sensitivity Queue</div>",
         unsafe_allow_html=True
     )
+    st.markdown("<div style='background:#FFFFFF; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.07),0 0 0 1px rgba(0,0,0,0.04); overflow:hidden;'>", unsafe_allow_html=True)
     
     pending_df = df_items[df_items["status"] == "PENDING"].head(3)
     
     if not pending_df.empty:
-        for _, row in pending_df.iterrows():
+        for i, (_, row) in enumerate(pending_df.iterrows()):
             cat = row["category"] or "PII"
             color = get_category_color(cat)
             initial = cat[0].upper()
+            border_top = "border-top:1px solid #F3F4F6;" if i > 0 else ""
             st.markdown(
                 f"""
-                <div style="background: #FFFFFF; border: 1px solid #E2E5ED; padding: 12px 16px; margin-bottom: -1px; display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 32px; height: 32px; background: {color}; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px;">
+                <div style="background: #FFFFFF; {border_top} padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 32px; height: 32px; background: {color}; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px; flex-shrink:0;">
                         {initial}
                     </div>
-                    <div style="flex: 1;">
+                    <div style="flex: 1; min-width:0;">
                         <div style="font-size: 13px; font-weight: 600; color: #111827;">{row['schema_name']}.{row['table_name']}.{row['column_name']}</div>
                         <div style="font-size: 11px; color: #64748B;">Suggested: {row['suggested_tag']} &middot; Confidence: {row['confidence_score']*100:.1f}% &middot; Priority: {row['priority']}</div>
                     </div>
@@ -111,32 +111,33 @@ with col_left:
                 """,
                 unsafe_allow_html=True
             )
-        st.markdown("<div style='height: 1px; background: #E2E5ED; margin-top: -1px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;'></div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
     else:
+        st.markdown("</div>", unsafe_allow_html=True)
         st.info("No pending classifications to triage.")
 
 with col_right:
     st.markdown(
-        "<div style='background: #F9FAFB; padding: 12px 16px; border: 1px solid #E2E5ED; border-top-left-radius: 6px; border-top-right-radius: 6px; font-size: 13px; font-weight: 600; color: #374151; border-bottom: none;'>"
-        "Recent Audited Operations"
-        "</div>",
+        "<div style='font-size:13px; font-weight:600; color:#374151; margin-bottom:10px;'>Recent Audited Operations</div>",
         unsafe_allow_html=True
     )
+    st.markdown("<div style='background:#FFFFFF; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.07),0 0 0 1px rgba(0,0,0,0.04); overflow:hidden;'>", unsafe_allow_html=True)
     
     recent_audits = df_audit.head(3)
     
     if not recent_audits.empty:
-        for _, row in recent_audits.iterrows():
+        for i, (_, row) in enumerate(recent_audits.iterrows()):
             decision = row["decision"]
             color = "var(--success)" if decision == "APPROVE" else "var(--warning)" if decision == "MODIFY" else "var(--danger)"
             initial = decision[0].upper()
+            border_top = "border-top:1px solid #F3F4F6;" if i > 0 else ""
             st.markdown(
                 f"""
-                <div style="background: #FFFFFF; border: 1px solid #E2E5ED; padding: 12px 16px; margin-bottom: -1px; display: flex; align-items: center; gap: 12px;">
-                    <div style="width: 32px; height: 32px; background: {color}; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px;">
+                <div style="background: #FFFFFF; {border_top} padding: 12px 16px; display: flex; align-items: center; gap: 12px;">
+                    <div style="width: 32px; height: 32px; background: {color}; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 700; font-size: 13px; flex-shrink:0;">
                         {initial}
                     </div>
-                    <div style="flex: 1;">
+                    <div style="flex: 1; min-width:0;">
                         <div style="font-size: 13px; font-weight: 600; color: #111827;">{row['schema_name']}.{row['table_name']}.{row['column_name']}</div>
                         <div style="font-size: 11px; color: #64748B;">Action: {row['decision']} &middot; Decision ID: {row['governance_decision_id']} &middot; Duration: {row['approval_duration']}</div>
                     </div>
@@ -144,8 +145,9 @@ with col_right:
                 """,
                 unsafe_allow_html=True
             )
-        st.markdown("<div style='height: 1px; background: #E2E5ED; margin-top: -1px; border-bottom-left-radius: 6px; border-bottom-right-radius: 6px;'></div>", unsafe_allow_html=True)
+        st.markdown("</div>", unsafe_allow_html=True)
     else:
+        st.markdown("</div>", unsafe_allow_html=True)
         st.info("No audited logs recorded.")
 
 st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:24px 0 20px;'>", unsafe_allow_html=True)

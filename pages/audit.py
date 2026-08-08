@@ -18,20 +18,21 @@ st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 
 audit_service = AuditService()
 
 # ── Connection Mode Status Banner ─────────────────────────────────────────────
-from utils.db import is_databricks, get_connection_status, get_spark
+from utils.db import is_databricks, get_connection_status
 conn = get_connection_status()
+in_databricks = conn.get("connected", False)
 
 if audit_service.using_live_db:
-    # Live Delta table connected — green banner
+    # State 1 ✅  Live Delta table is connected
     st.markdown(
         f"""
         <div style='display:flex; align-items:center; gap:10px; background:#F0FDF4;
                     border:1px solid #BBF7D0; border-radius:6px; padding:10px 16px; margin-bottom:16px;'>
-            <span style='color:#0F9D58; font-size:12px;'>&#9679;</span>
+            <span style='color:#0F9D58; font-size:18px;'>&#9679;</span>
             <div>
                 <span style='font-size:12px; font-weight:600; color:#14532D;'>Live Delta Table Connected</span>
                 <span style='font-size:11px; color:#166534; margin-left:8px;'>
-                    Audit logs persisted to
+                    Audit logs are persisted to
                     <code style='background:#DCFCE7; padding:1px 4px; border-radius:2px;'>{audit_service.table_name}</code>
                 </span>
             </div>
@@ -39,17 +40,51 @@ if audit_service.using_live_db:
         """,
         unsafe_allow_html=True
     )
-else:
-    # Offline / session-only mode
+elif in_databricks:
+    # State 2 ⚠️  Databricks is reachable but the audit table could not be created
+    import os as _os
+    _catalog = _os.environ.get("DATABRICKS_CATALOG", "dev")
+    _schema  = _os.environ.get("DATABRICKS_SCHEMA",  "brz")
     st.markdown(
         f"""
-        <div style='display:flex; align-items:center; gap:10px; background:#FFFBEB;
-                    border:1px solid #FDE68A; border-radius:6px; padding:10px 16px; margin-bottom:16px;'>
-            <span style='color:#F59E0B; font-size:12px;'>&#9679;</span>
-            <div style='font-size:12px; color:#92400E;'>
-                <strong>Session Mode</strong> — Audit logs are in-memory only. To persist, ensure
-                <code style='background:#FEF3C7; padding:1px 4px; border-radius:2px;'>{audit_service.table_name}</code>
-                is accessible and the app has CREATE TABLE privileges.
+        <div style='background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px;
+                    padding:14px 18px; margin-bottom:16px;'>
+            <div style='display:flex; align-items:center; gap:8px; margin-bottom:6px;'>
+                <span style='font-size:16px;'>&#9888;&#65039;</span>
+                <span style='font-size:13px; font-weight:600; color:#78350F;'>
+                    Audit Log is in Session-only Fallback Mode
+                </span>
+            </div>
+            <p style='font-size:12px; color:#92400E; margin:0 0 10px;'>
+                The table <code style='background:#FEF3C7; padding:1px 5px; border-radius:3px;'>{audit_service.table_name}</code>
+                does not exist and could not be created automatically. This is usually a permissions issue.
+                Ask your Databricks admin to run:
+            </p>
+            <div style='background:#FEF9C3; border:1px solid #FDE68A; border-radius:5px;
+                        padding:8px 12px; font-family:"JetBrains Mono",monospace; font-size:12px; color:#713F12;'>
+                GRANT CREATE TABLE ON SCHEMA {_catalog}.{_schema} TO &lt;your-service-principal-or-email&gt;;
+            </div>
+            <p style='font-size:11px; color:#A16207; margin:8px 0 0;'>
+                Until resolved, audit logs are stored in memory for this session only and will not persist across restarts.
+            </p>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+else:
+    # State 3 🔵  Running locally / no Databricks connection — demo / offline mode
+    st.markdown(
+        """
+        <div style='display:flex; align-items:flex-start; gap:10px; background:#EFF6FF;
+                    border:1px solid #BFDBFE; border-radius:8px; padding:12px 16px; margin-bottom:16px;'>
+            <span style='font-size:18px; margin-top:1px;'>&#128216;</span>
+            <div>
+                <span style='font-size:12px; font-weight:600; color:#1E3A5F;'>Demo / Offline Mode</span>
+                <span style='font-size:11px; color:#1D4ED8; margin-left:6px;'>No Databricks connection detected</span>
+                <p style='font-size:11px; color:#3B82F6; margin:4px 0 0;'>
+                    Audit logs are loaded from in-memory seed data for demonstration purposes.
+                    Connect a Databricks workspace to enable persistent, live audit trail storage.
+                </p>
             </div>
         </div>
         """,

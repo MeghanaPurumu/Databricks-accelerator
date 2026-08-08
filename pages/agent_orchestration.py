@@ -14,7 +14,7 @@ st.markdown(
     "<p style='font-size:13px;color:var(--ink-muted);'>Master console for triggering inbound pipelines, auditing multi-agent execution context, and inspecting schema change events.</p>",
     unsafe_allow_html=True
 )
-st.markdown("<hr style='border:0;border-top:1px solid var(--border);margin:12px 0 20px;'>", unsafe_allow_html=True)
+st.markdown("<div style='margin-bottom:20px;'></div>", unsafe_allow_html=True)
 
 # ── Session state initialization ──────────────────────────────────────────────
 if "pipeline_status" not in st.session_state:
@@ -109,7 +109,7 @@ mc_col1, mc_col2, mc_col3, mc_col4 = st.columns([3, 3, 3, 3])
 with mc_col1:
     st.markdown(
         f"""
-        <div style='padding:10px 14px; background:var(--surface-sunken); border-radius:6px; border:1px solid var(--border);'>
+        <div style='padding:10px 14px; background:var(--surface-sunken); border-radius:6px;'>
             <div style='font-size:10px; text-transform:uppercase; color:var(--ink-muted); font-weight:600; letter-spacing:0.05em;'>Connection Mode</div>
             <div style='font-size:15px; font-weight:700; color:{live_color}; margin-top:4px; display:flex; align-items:center; gap:6px;'>
                 <span style='width:8px; height:8px; border-radius:50%; background:{live_color}; display:inline-block;'></span>
@@ -125,7 +125,7 @@ with mc_col2:
     pipeline_color = "#10B981" if st.session_state.pipeline_status == "COMPLETED" else "#F59E0B" if st.session_state.pipeline_status != "IDLE" else "#6B7280"
     st.markdown(
         f"""
-        <div style='padding:10px 14px; background:var(--surface-sunken); border-radius:6px; border:1px solid var(--border);'>
+        <div style='padding:10px 14px; background:var(--surface-sunken); border-radius:6px;'>
             <div style='font-size:10px; text-transform:uppercase; color:var(--ink-muted); font-weight:600; letter-spacing:0.05em;'>Pipeline Status</div>
             <div style='font-size:15px; font-weight:700; color:{pipeline_color}; margin-top:4px; display:flex; align-items:center; gap:6px;'>
                 <span style='width:8px; height:8px; border-radius:50%; background:{pipeline_color}; display:inline-block;'></span>
@@ -143,7 +143,7 @@ with mc_col3:
     )
     st.markdown(
         f"""
-        <div style='padding:10px 14px; background:var(--surface-sunken); border-radius:6px; border:1px solid var(--border);'>
+        <div style='padding:10px 14px; background:var(--surface-sunken); border-radius:6px;'>
             <div style='font-size:10px; text-transform:uppercase; color:var(--ink-muted); font-weight:600; letter-spacing:0.05em;'>Active Agents</div>
             <div style='font-size:22px; font-weight:700; color:var(--ink); margin-top:2px;'>{active_count} <span style='font-size:13px; color:var(--ink-muted); font-weight:400;'>/ 4</span></div>
         </div>
@@ -178,7 +178,7 @@ st.markdown("</div>", unsafe_allow_html=True)
 # ── ACTIVE vs STANDBY explanation note ───────────────────────────────────────
 st.markdown(
     """
-    <div style='background:#EFF6FF; border:1px solid #BFDBFE; border-radius:6px;
+    <div style='background:#EFF6FF; border-radius:6px;
                 padding:10px 16px; margin-bottom:16px; font-size:12px; color:#1E40AF;'>
         <strong>Agent Mode Design:</strong>
         Detection Worker and Supervisor Agent are <strong>always ACTIVE</strong> as lightweight event listeners
@@ -257,14 +257,14 @@ with col_left:
         color = agent["color"]
         st.markdown(
             f"""
-            <div style='padding: 8px 12px; margin-bottom: 8px; border: 1px solid var(--border);
+            <div style='padding: 8px 12px; margin-bottom: 8px; background:var(--surface-sunken);
                         border-radius: 4px; display: flex; justify-content: space-between; align-items: center;'>
                 <div>
                     <div style='font-size:13px; font-weight:600; color:var(--ink);'>{agent['name']}</div>
                     <div style='font-size:11px; color:var(--ink-muted);'>{agent['desc']}</div>
                 </div>
                 <div style='font-size: 10px; font-weight:600; color: {color};
-                            border: 1px solid {color}; padding: 2px 8px; border-radius: 12px; white-space:nowrap;'>
+                            background:{color}18; padding: 2px 8px; border-radius: 12px; white-space:nowrap;'>
                     {status_label}
                 </div>
             </div>

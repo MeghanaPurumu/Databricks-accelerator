@@ -41,17 +41,18 @@ def apply_custom_css():
         /* Databricks styled metric card */
         .db-metric-card {
             background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 6px;
+            border: none;
+            border-radius: 8px;
             padding: 16px;
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: border-color 0.15s ease;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+            transition: box-shadow 0.15s ease;
         }
         .db-metric-card:hover {
-            border-color: #B0B7C3;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.06);
         }
         .db-metric-label {
             font-size: 12px;
@@ -101,7 +102,6 @@ def apply_custom_css():
         .badge-escalated {
             background-color: var(--surface-sunken);
             color: var(--ink-muted);
-            border: 1px solid var(--border);
         }
 
         /* Category indicator chips */
@@ -131,12 +131,13 @@ def apply_custom_css():
         /* Activity card */
         .activity-card {
             background: var(--surface);
-            border: 1px solid var(--border);
+            border: none;
             border-left: 3px solid var(--primary);
             border-radius: 6px;
             padding: 14px 18px;
             margin-bottom: 10px;
             position: relative;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06);
         }
 
         /* Section title */
@@ -145,16 +146,16 @@ def apply_custom_css():
             font-weight: 600;
             color: var(--ink);
             margin-bottom: 16px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid var(--border);
+            padding-bottom: 4px;
         }
 
         /* Panel box */
         .panel-box {
             background: var(--surface) !important;
-            border: 1px solid var(--border) !important;
-            border-radius: 6px !important;
+            border: none !important;
+            border-radius: 8px !important;
             padding: 20px !important;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04) !important;
         }
 
         /* Priority labels */
@@ -212,25 +213,33 @@ def apply_custom_css():
             font-size: 12px !important;
         }
 
-        /* ── Suppress Streamlit double-outline wrappers ──────────────────────
+        /* ── Suppress ALL Streamlit-generated border lines ─────────────────
            Streamlit 1.3x wraps column children in stVerticalBlockBorderWrapper
-           which can render a second border on top of our custom .panel-box cards.
-           We reset those to transparent so only our custom card border shows.   */
-        [data-testid="stVerticalBlockBorderWrapper"] {
+           and various other elements with borders/outlines we don't want.     */
+        [data-testid="stVerticalBlockBorderWrapper"],
+        [data-testid="stVerticalBlock"],
+        [data-testid="stHorizontalBlock"],
+        [data-testid="stColumn"],
+        [data-testid="column"],
+        [data-testid="stElementContainer"] {
             border: none !important;
             box-shadow: none !important;
             background: transparent !important;
-            padding: 0 !important;
+            outline: none !important;
+        }
+        [data-testid="column"] > div {
+            border: none !important;
+            background: transparent !important;
         }
         /* Suppress metric card internal Streamlit borders */
         [data-testid="stMetric"] {
             border: none !important;
+            box-shadow: none !important;
             background: transparent !important;
         }
-        /* Suppress default column gap/border */
-        [data-testid="column"] > div {
+        /* Remove Streamlit's default block border */
+        .stMarkdown, .element-container {
             border: none !important;
-            background: transparent !important;
         }
         </style>
     <!-- governance-css-v4 -->
@@ -295,7 +304,7 @@ def render_top_header():
 
     st.markdown(
         f"""
-        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; background: #FFFFFF; height: 52px; margin-bottom: 24px;">
+        <div style="display: flex; align-items: center; justify-content: space-between; padding: 8px 16px; border-radius: 6px; background: #FFFFFF; height: 52px; margin-bottom: 24px;">
             <!-- Left: Governance Logo & Wordmark -->
             <div style="display: flex; align-items: center; gap: 10px;">
                 <svg width="28" height="28" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
