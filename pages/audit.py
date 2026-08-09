@@ -26,19 +26,7 @@ import textwrap
 if audit_service.using_live_db:
     # State 1 ✅  Live Delta table is connected
     st.markdown(
-        textwrap.dedent(f"""
-            <div style='display:flex; align-items:center; gap:10px; background:#F0FDF4;
-                        border:1px solid #BBF7D0; border-radius:6px; padding:10px 16px; margin-bottom:16px;'>
-                <span style='color:#0F9D58; font-size:18px;'>&#9679;</span>
-                <div>
-                    <span style='font-size:12px; font-weight:600; color:#14532D;'>Live Delta Table Connected</span>
-                    <span style='font-size:11px; color:#166534; margin-left:8px;'>
-                        Audit logs are persisted to
-                        <code style='background:#DCFCE7; padding:1px 4px; border-radius:2px;'>{audit_service.table_name}</code>
-                    </span>
-                </div>
-            </div>
-        """),
+        f"<div style='display:flex; align-items:center; gap:10px; background:#F0FDF4; border:1px solid #BBF7D0; border-radius:6px; padding:10px 16px; margin-bottom:16px;'><span style='color:#0F9D58; font-size:18px;'>&#9679;</span><div><span style='font-size:12px; font-weight:600; color:#14532D;'>Live Delta Table Connected</span><span style='font-size:11px; color:#166534; margin-left:8px;'>Audit logs are persisted to <code style='background:#DCFCE7; padding:1px 4px; border-radius:2px;'>{audit_service.table_name}</code></span></div></div>",
         unsafe_allow_html=True
     )
 elif in_databricks:
@@ -49,59 +37,16 @@ elif in_databricks:
     
     error_detail_html = ""
     if hasattr(audit_service, "bootstrap_error") and audit_service.bootstrap_error:
-        error_detail_html = f"""
-        <div style='margin-top: 10px; padding: 8px 12px; background: #FEF2F2; border: 1px solid #FCA5A5;
-                    border-radius: 4px; font-family:"JetBrains Mono",monospace; font-size: 11px; color: #991B1B;'>
-            <strong>Error details:</strong> {audit_service.bootstrap_error}
-        </div>
-        """
+        error_detail_html = f"<div style='margin-top: 10px; padding: 8px 12px; background: #FEF2F2; border: 1px solid #FCA5A5; border-radius: 4px; font-family:\"JetBrains Mono\",monospace; font-size: 11px; color: #991B1B;'><strong>Error details:</strong> {audit_service.bootstrap_error}</div>"
         
     st.markdown(
-        textwrap.dedent(f"""
-            <div style='background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px;
-                        padding:14px 18px; margin-bottom:16px;'>
-                <div style='display:flex; align-items:center; gap:8px; margin-bottom:6px;'>
-                    <span style='font-size:16px;'>&#9888;&#65039;</span>
-                    <span style='font-size:13px; font-weight:600; color:#78350F;'>
-                        Audit Log is in Session-only Fallback Mode
-                    </span>
-                </div>
-                <p style='font-size:12px; color:#92400E; margin:0 0 10px;'>
-                    The table <code style='background:#FEF3C7; padding:1px 5px; border-radius:3px;'>{audit_service.table_name}</code>
-                    does not exist and could not be created automatically. This is usually a permissions issue.
-                    Ask your Databricks admin to run:
-                </p>
-                <div style='background:#FEF9C3; border:1px solid #FDE68A; border-radius:5px;
-                            padding:8px 12px; font-family:"JetBrains Mono",monospace; font-size:12px; color:#713F12; white-space:pre-wrap;'>
-GRANT USE CATALOG ON CATALOG `{_catalog}` TO `{current_identity}`;
-GRANT USE SCHEMA ON SCHEMA `{_catalog}`.`{_schema}` TO `{current_identity}`;
-GRANT CREATE TABLE ON SCHEMA `{_catalog}`.`{_schema}` TO `{current_identity}`;
-                </div>
-                {error_detail_html}
-                <p style='font-size:11px; color:#A16207; margin:8px 0 0;'>
-                    Until resolved, audit logs are stored in memory for this session only and will not persist across restarts.
-                </p>
-            </div>
-        """),
+        f"<div style='background:#FFFBEB; border:1px solid #FDE68A; border-radius:8px; padding:14px 18px; margin-bottom:16px;'><div style='display:flex; align-items:center; gap:8px; margin-bottom:6px;'><span style='font-size:16px;'>&#9888;&#65039;</span><span style='font-size:13px; font-weight:600; color:#78350F;'>Audit Log is in Session-only Fallback Mode</span></div><p style='font-size:12px; color:#92400E; margin:0 0 10px;'>The table <code style='background:#FEF3C7; padding:1px 5px; border-radius:3px;'>{audit_service.table_name}</code> does not exist and could not be created automatically. This is usually a permissions issue. Ask your Databricks admin to run:</p><div style='background:#FEF9C3; border:1px solid #FDE68A; border-radius:5px; padding:8px 12px; font-family:\"JetBrains Mono\",monospace; font-size:12px; color:#713F12; white-space:pre-wrap;'>GRANT USE CATALOG ON CATALOG `{_catalog}` TO `{current_identity}`;\nGRANT USE SCHEMA ON SCHEMA `{_catalog}`.`{_schema}` TO `{current_identity}`;\nGRANT CREATE TABLE ON SCHEMA `{_catalog}`.`{_schema}` TO `{current_identity}`;</div>{error_detail_html}<p style='font-size:11px; color:#A16207; margin:8px 0 0;'>Until resolved, audit logs are stored in memory for this session only and will not persist across restarts.</p></div>",
         unsafe_allow_html=True
     )
 else:
     # State 3 🔵  Running locally / no Databricks connection — demo / offline mode
     st.markdown(
-        textwrap.dedent("""
-            <div style='display:flex; align-items:flex-start; gap:10px; background:#EFF6FF;
-                        border:1px solid #BFDBFE; border-radius:8px; padding:12px 16px; margin-bottom:16px;'>
-                <span style='font-size:18px; margin-top:1px;'>&#128216;</span>
-                <div>
-                    <span style='font-size:12px; font-weight:600; color:#1E3A5F;'>Demo / Offline Mode</span>
-                    <span style='font-size:11px; color:#1D4ED8; margin-left:6px;'>No Databricks connection detected</span>
-                    <p style='font-size:11px; color:#3B82F6; margin:4px 0 0;'>
-                        Audit logs are loaded from in-memory seed data for demonstration purposes.
-                        Connect a Databricks workspace to enable persistent, live audit trail storage.
-                    </p>
-                </div>
-            </div>
-        """),
+        "<div style='display:flex; align-items:flex-start; gap:10px; background:#EFF6FF; border:1px solid #BFDBFE; border-radius:8px; padding:12px 16px; margin-bottom:16px;'><span style='font-size:18px; margin-top:1px;'>&#128216;</span><div><span style='font-size:12px; font-weight:600; color:#1E3A5F;'>Demo / Offline Mode</span><span style='font-size:11px; color:#1D4ED8; margin-left:6px;'>No Databricks connection detected</span><p style='font-size:11px; color:#3B82F6; margin:4px 0 0;'>Audit logs are loaded from in-memory seed data for demonstration purposes. Connect a Databricks workspace to enable persistent, live audit trail storage.</p></div></div>",
         unsafe_allow_html=True
     )
 
