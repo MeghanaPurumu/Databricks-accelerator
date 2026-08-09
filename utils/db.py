@@ -189,17 +189,21 @@ def is_databricks() -> bool:
             except Exception as me_err:
                 logger.debug(f"WorkspaceClient current_user.me() failed: {me_err}")
             
-            # Retrieve SQL Warehouse ID if configured or automatically discover it
+            # Read the SQL Warehouse ID bound via app.yaml valueFrom: sql-warehouse.
+            # warehouses.list() is intentionally NOT used here — the app's service
+            # principal has 'Can use' permission only, which does not allow listing
+            # all warehouses in the workspace.
             wh_id = os.environ.get("DATABRICKS_WAREHOUSE_ID")
             if not wh_id:
-                try:
-                    warehouses = list(client.warehouses.list())
-                    if warehouses:
-                        wh_id = warehouses[0].id
-                except Exception as list_err:
-                    logger.debug(f"WorkspaceClient list warehouses failed: {list_err}")
-                    _last_connection_error = f"List warehouses failed: {list_err}"
-                    
+                _last_connection_error = (
+                    "SQL Warehouse resource is not available to this Databricks App. "
+                    "Verify that the SQL Warehouse resource with key 'sql-warehouse' is "
+                    "configured in the Databricks App UI and that its ID is exposed via "
+                    "the DATABRICKS_WAREHOUSE_ID environment variable (app.yaml: "
+                    "valueFrom: sql-warehouse)."
+                )
+                logger.error(_last_connection_error)
+
             _warehouse_id = wh_id
             logger.info(f"Live Databricks WorkspaceClient connection established. Warehouse: {_warehouse_id}")
         except Exception as e:
@@ -237,6 +241,7 @@ def get_connection_status():
         "has_client": _workspace_client is not None,
         "has_spark": _spark_session is not None,
         "warehouse_id": _warehouse_id,
+        "warehouse_configured": _warehouse_id is not None,
         "current_identity": _current_identity,
         "error": _last_connection_error
     }

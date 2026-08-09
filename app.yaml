@@ -8,3 +8,5 @@ env:
     value: "dev"
   - name: DATABRICKS_SCHEMA
     value: "brz"
+  - name: DATABRICKS_WAREHOUSE_ID
+    valueFrom: sql-warehouse
