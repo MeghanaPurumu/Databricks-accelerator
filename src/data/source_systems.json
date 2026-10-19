@@ -1,0 +1,97 @@
+[
+  {
+    "sourceId": "SRC-CRM-001",
+    "sourceName": "CRM Legacy",
+    "sourceType": "delta_table",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableName": "crm_legacy",
+    "description": "Salesforce CRM export — primary source of customer contact data",
+    "priority": 1,
+    "status": "active",
+    "recordCount": 1000,
+    "columnCount": 17,
+    "createdAt": "2026-09-01T00:00:00Z",
+    "updatedAt": "2026-09-07T08:00:00Z",
+    "columnMappings": [
+      { "sourceColumn": "CustomerID",   "targetColumn": "unique_id",   "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "FNAME",        "targetColumn": "first_name",  "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "LNAME",        "targetColumn": "last_name",   "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "DOB",          "targetColumn": "dob",         "required": false, "confidence": 1.0 },
+      { "sourceColumn": "EMAIL_ADDR",   "targetColumn": "email",       "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "PHONE_NUM",    "targetColumn": "phone",       "required": false, "confidence": 1.0 },
+      { "sourceColumn": "STREET_ADDR",  "targetColumn": "address",     "required": false, "confidence": 0.9 },
+      { "sourceColumn": "CITY",         "targetColumn": "city",        "required": false, "confidence": 1.0 },
+      { "sourceColumn": "STATE_CD",     "targetColumn": "state",       "required": false, "confidence": 0.95 },
+      { "sourceColumn": "ZIP_CD",       "targetColumn": "postcode",    "required": false, "confidence": 0.95 }
+    ]
+  },
+  {
+    "sourceId": "SRC-POS-001",
+    "sourceName": "POS Loyalty",
+    "sourceType": "delta_table",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableName": "pos_loyalty",
+    "description": "Point-of-sale loyalty program membership data",
+    "priority": 2,
+    "status": "active",
+    "recordCount": 850,
+    "columnCount": 13,
+    "createdAt": "2026-09-01T00:00:00Z",
+    "updatedAt": "2026-09-06T18:30:00Z",
+    "columnMappings": [
+      { "sourceColumn": "LoyaltyCardNo",       "targetColumn": "unique_id",  "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "MemberName",          "targetColumn": "first_name", "required": true,  "confidence": 0.8 },
+      { "sourceColumn": "Phone",               "targetColumn": "phone",      "required": false, "confidence": 1.0 },
+      { "sourceColumn": "PreferredStoreCity",  "targetColumn": "city",       "required": false, "confidence": 0.9 }
+    ]
+  },
+  {
+    "sourceId": "SRC-SUP-001",
+    "sourceName": "Support Tickets",
+    "sourceType": "delta_table",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableName": "support_tickets",
+    "description": "Customer support ticket system — contact data",
+    "priority": 3,
+    "status": "active",
+    "recordCount": 700,
+    "columnCount": 12,
+    "createdAt": "2026-09-01T00:00:00Z",
+    "updatedAt": "2026-09-07T06:15:00Z",
+    "columnMappings": [
+      { "sourceColumn": "ticket_customer_id", "targetColumn": "unique_id",  "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "first",              "targetColumn": "first_name", "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "last",               "targetColumn": "last_name",  "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "date_of_birth",      "targetColumn": "dob",        "required": false, "confidence": 1.0 },
+      { "sourceColumn": "contact_email",      "targetColumn": "email",      "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "contact_phone",      "targetColumn": "phone",      "required": false, "confidence": 1.0 },
+      { "sourceColumn": "full_address",       "targetColumn": "address",    "required": false, "confidence": 0.85 }
+    ]
+  },
+  {
+    "sourceId": "SRC-WEB-001",
+    "sourceName": "Web Signup",
+    "sourceType": "delta_table",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableName": "customers_websignup",
+    "description": "Online signup portal customer registrations",
+    "priority": 4,
+    "status": "active",
+    "recordCount": 900,
+    "columnCount": 13,
+    "createdAt": "2026-09-01T00:00:00Z",
+    "updatedAt": "2026-09-07T07:45:00Z",
+    "columnMappings": [
+      { "sourceColumn": "user_id",        "targetColumn": "unique_id",  "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "full_name",      "targetColumn": "first_name", "required": true,  "confidence": 0.75 },
+      { "sourceColumn": "email",          "targetColumn": "email",      "required": true,  "confidence": 1.0 },
+      { "sourceColumn": "mobile_number",  "targetColumn": "phone",      "required": false, "confidence": 1.0 },
+      { "sourceColumn": "signup_city",    "targetColumn": "city",       "required": false, "confidence": 0.9 },
+      { "sourceColumn": "signup_zip",     "targetColumn": "postcode",   "required": false, "confidence": 0.9 }
+    ]
+  }
+]
