@@ -1,0 +1,3479 @@
+{
+  "DUP-PAIR-POS000545-WEB000480": {
+    "pairId": "DUP-PAIR-POS000545-WEB000480",
+    "matchProbability": 0.948,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "35434",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000790-POS000550": {
+    "pairId": "DUP-PAIR-CRM000790-POS000550",
+    "matchProbability": 0.948,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1994-11-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "50992",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000027-POS000014": {
+    "pairId": "DUP-PAIR-CRM000027-POS000014",
+    "matchProbability": 0.948,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "28998",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000429-POS000299": {
+    "pairId": "DUP-PAIR-CRM000429-POS000299",
+    "matchProbability": 0.9475,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "2001-04-04",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "42318",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000234-POS000152": {
+    "pairId": "DUP-PAIR-CRM000234-POS000152",
+    "matchProbability": 0.9475,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1970-03-25",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "88171",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000018-POS000010": {
+    "pairId": "DUP-PAIR-CRM000018-POS000010",
+    "matchProbability": 0.9407,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "2001-01-12",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "07114",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000444-POS000311": {
+    "pairId": "DUP-PAIR-CRM000444-POS000311",
+    "matchProbability": 0.9407,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1999-10-23",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "80437",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000813-POS000568": {
+    "pairId": "DUP-PAIR-CRM000813-POS000568",
+    "matchProbability": 0.9376,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1947-06-06",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "98452",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-TKT000064-WEB000080": {
+    "pairId": "DUP-PAIR-TKT000064-WEB000080",
+    "matchProbability": 0.928,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1998-05-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "52259",
+        "valueB": "52259",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      }
+    ],
+    "matchingCount": 3,
+    "conflictingCount": 3,
+    "unknownCount": 2
+  },
+  "DUP-PAIR-CRM000121-WEB000080": {
+    "pairId": "DUP-PAIR-CRM000121-WEB000080",
+    "matchProbability": 0.928,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1998-05-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "52259",
+        "valueB": "52259",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      }
+    ],
+    "matchingCount": 3,
+    "conflictingCount": 3,
+    "unknownCount": 2
+  },
+  "DUP-PAIR-POS000243-WEB000224": {
+    "pairId": "DUP-PAIR-POS000243-WEB000224",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "91125",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000004-WEB000006": {
+    "pairId": "DUP-PAIR-POS000004-WEB000006",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "04468",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000138-WEB000133": {
+    "pairId": "DUP-PAIR-POS000138-WEB000133",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "47186",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000497-WEB000446": {
+    "pairId": "DUP-PAIR-POS000497-WEB000446",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "60841",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000229-TKT000155": {
+    "pairId": "DUP-PAIR-POS000229-TKT000155",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "1966-07-30",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "03063",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000210-WEB000200": {
+    "pairId": "DUP-PAIR-POS000210-WEB000200",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000512-WEB000456": {
+    "pairId": "DUP-PAIR-POS000512-WEB000456",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000324-POS000229": {
+    "pairId": "DUP-PAIR-CRM000324-POS000229",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1966-07-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "03063",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000097-POS000075": {
+    "pairId": "DUP-PAIR-CRM000097-POS000075",
+    "matchProbability": 0.924,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1972-11-24",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "52060",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000504-POS000357": {
+    "pairId": "DUP-PAIR-CRM000504-POS000357",
+    "matchProbability": 0.9203,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1942-02-13",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "84481",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 3,
+    "conflictingCount": 0,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000504-POS000358": {
+    "pairId": "DUP-PAIR-CRM000504-POS000358",
+    "matchProbability": 0.9203,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1942-02-13",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "84481",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 3,
+    "conflictingCount": 0,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000741-POS000519": {
+    "pairId": "DUP-PAIR-CRM000741-POS000519",
+    "matchProbability": 0.9199,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "2007-04-03",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "90035",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000741-POS000520": {
+    "pairId": "DUP-PAIR-CRM000741-POS000520",
+    "matchProbability": 0.9199,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "2007-04-03",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "90035",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000723-POS000503": {
+    "pairId": "DUP-PAIR-CRM000723-POS000503",
+    "matchProbability": 0.9091,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "2002-06-04",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "42747",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000013-WEB000012": {
+    "pairId": "DUP-PAIR-CRM000013-WEB000012",
+    "matchProbability": 0.9011,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1982-10-16",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "46061",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000025-POS000013": {
+    "pairId": "DUP-PAIR-CRM000025-POS000013",
+    "matchProbability": 0.9011,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1946-12-05",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "99728",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000025-TKT000012": {
+    "pairId": "DUP-PAIR-CRM000025-TKT000012",
+    "matchProbability": 0.9011,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1946-12-05",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "99728",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000525-WEB000326": {
+    "pairId": "DUP-PAIR-CRM000525-WEB000326",
+    "matchProbability": 0.8967,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1954-09-04",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "51595",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000815-POS000570": {
+    "pairId": "DUP-PAIR-CRM000815-POS000570",
+    "matchProbability": 0.8899,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "2001-06-07",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "94095",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000216-POS000144": {
+    "pairId": "DUP-PAIR-CRM000216-POS000144",
+    "matchProbability": 0.8817,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1967-10-15",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "74920",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-POS000194-WEB000187": {
+    "pairId": "DUP-PAIR-POS000194-WEB000187",
+    "matchProbability": 0.8794,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "19196",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000166-WEB000168": {
+    "pairId": "DUP-PAIR-POS000166-WEB000168",
+    "matchProbability": 0.8794,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "91745",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000277-POS000194": {
+    "pairId": "DUP-PAIR-CRM000277-POS000194",
+    "matchProbability": 0.8794,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "19196",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000683-WEB000417": {
+    "pairId": "DUP-PAIR-CRM000683-WEB000417",
+    "matchProbability": 0.8755,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "75931",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000396-WEB000341": {
+    "pairId": "DUP-PAIR-POS000396-WEB000341",
+    "matchProbability": 0.8587,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000551-WEB000486": {
+    "pairId": "DUP-PAIR-POS000551-WEB000486",
+    "matchProbability": 0.8587,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000382-TKT000250": {
+    "pairId": "DUP-PAIR-POS000382-TKT000250",
+    "matchProbability": 0.8389,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "1958-12-09",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "62873",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000822-POS000572": {
+    "pairId": "DUP-PAIR-CRM000822-POS000572",
+    "matchProbability": 0.8226,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1979-11-19",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "92751",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000155-POS000105": {
+    "pairId": "DUP-PAIR-CRM000155-POS000105",
+    "matchProbability": 0.8226,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1971-09-02",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "08036",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000091-POS000070": {
+    "pairId": "DUP-PAIR-CRM000091-POS000070",
+    "matchProbability": 0.8109,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "41186",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000355-POS000248": {
+    "pairId": "DUP-PAIR-CRM000355-POS000248",
+    "matchProbability": 0.7617,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1953-12-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "13961",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000355-TKT000166": {
+    "pairId": "DUP-PAIR-CRM000355-TKT000166",
+    "matchProbability": 0.7617,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1953-12-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "13961",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000355-WEB000233": {
+    "pairId": "DUP-PAIR-CRM000355-WEB000233",
+    "matchProbability": 0.7617,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1953-12-30",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "13961",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000015-WEB000014": {
+    "pairId": "DUP-PAIR-CRM000015-WEB000014",
+    "matchProbability": 0.7598,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1992-06-17",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "83601",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000695-POS000482": {
+    "pairId": "DUP-PAIR-CRM000695-POS000482",
+    "matchProbability": 0.7577,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1986-06-15",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "02284",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000650-POS000451": {
+    "pairId": "DUP-PAIR-CRM000650-POS000451",
+    "matchProbability": 0.7299,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1978-01-25",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "79409",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000321-POS000227": {
+    "pairId": "DUP-PAIR-CRM000321-POS000227",
+    "matchProbability": 0.7085,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1966-08-14",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "07441",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-TKT000077-TKT000078": {
+    "pairId": "DUP-PAIR-TKT000077-TKT000078",
+    "matchProbability": 0.7009,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "01796",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000453-TKT000293": {
+    "pairId": "DUP-PAIR-POS000453-TKT000293",
+    "matchProbability": 0.6872,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "40765",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000111-POS000083": {
+    "pairId": "DUP-PAIR-CRM000111-POS000083",
+    "matchProbability": 0.6872,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1971-09-17",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "90489",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000303-TKT000203": {
+    "pairId": "DUP-PAIR-POS000303-TKT000203",
+    "matchProbability": 0.6491,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "22610",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000399-POS000279": {
+    "pairId": "DUP-PAIR-CRM000399-POS000279",
+    "matchProbability": 0.6423,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1999-02-22",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "57095",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000116-WEB000078": {
+    "pairId": "DUP-PAIR-CRM000116-WEB000078",
+    "matchProbability": 0.6121,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1966-11-27",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "57048",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000791-WEB000486": {
+    "pairId": "DUP-PAIR-CRM000791-WEB000486",
+    "matchProbability": 0.5843,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1949-03-02",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "31440",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 2,
+    "unknownCount": 4
+  },
+  "DUP-PAIR-CRM000651-WEB000422": {
+    "pairId": "DUP-PAIR-CRM000651-WEB000422",
+    "matchProbability": 0.574,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1992-06-27",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "23260",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000651-POS000474": {
+    "pairId": "DUP-PAIR-CRM000651-POS000474",
+    "matchProbability": 0.574,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "PARTIAL_MATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1992-06-27",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "23260",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 0,
+    "unknownCount": 6
+  },
+  "DUP-PAIR-CRM000157-POS000105": {
+    "pairId": "DUP-PAIR-CRM000157-POS000105",
+    "matchProbability": 0.5486,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1971-09-02",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "08036",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000156-POS000105": {
+    "pairId": "DUP-PAIR-CRM000156-POS000105",
+    "matchProbability": 0.5486,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1971-02-09",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "08036",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-POS000436-WEB000384": {
+    "pairId": "DUP-PAIR-POS000436-WEB000384",
+    "matchProbability": 0.4317,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "n/a",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "n/a",
+        "valueB": "59238",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000430-POS000300": {
+    "pairId": "DUP-PAIR-CRM000430-POS000300",
+    "matchProbability": 0.4317,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1984-02-09",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "75755",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  },
+  "DUP-PAIR-CRM000221-POS000146": {
+    "pairId": "DUP-PAIR-CRM000221-POS000146",
+    "matchProbability": 0.4317,
+    "fieldEvidence": [
+      {
+        "field": "First Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "MISMATCH"
+      },
+      {
+        "field": "Last Name",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Date of Birth",
+        "valueA": "1994-08-21",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Email",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Phone",
+        "valueA": "",
+        "valueB": "",
+        "status": "EXACT_MATCH"
+      },
+      {
+        "field": "Address",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "Postcode",
+        "valueA": "36063",
+        "valueB": "n/a",
+        "status": "UNKNOWN"
+      },
+      {
+        "field": "City",
+        "valueA": "",
+        "valueB": "",
+        "status": "UNKNOWN"
+      }
+    ],
+    "matchingCount": 2,
+    "conflictingCount": 1,
+    "unknownCount": 5
+  }
+}

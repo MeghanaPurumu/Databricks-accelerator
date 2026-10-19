@@ -1,0 +1,43 @@
+{
+  "available": true,
+  "totalRecords": 2294,
+  "avgScore": 75.4,
+  "byStatus": {
+    "PARTIAL": 1756,
+    "COMPLETE": 537,
+    "MINIMAL": 1
+  },
+  "bySource": {
+    "crm": {
+      "count": 824,
+      "avgScore": 86.6,
+      "statuses": {
+        "PARTIAL": 480,
+        "COMPLETE": 343,
+        "MINIMAL": 1
+      }
+    },
+    "pos": {
+      "count": 572,
+      "avgScore": 50.0,
+      "statuses": {
+        "PARTIAL": 572
+      }
+    },
+    "support": {
+      "count": 385,
+      "avgScore": 90.0,
+      "statuses": {
+        "COMPLETE": 194,
+        "PARTIAL": 191
+      }
+    },
+    "web": {
+      "count": 513,
+      "avgScore": 74.7,
+      "statuses": {
+        "PARTIAL": 513
+      }
+    }
+  }
+}

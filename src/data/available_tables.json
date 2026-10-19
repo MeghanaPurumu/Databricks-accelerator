@@ -1,0 +1,112 @@
+[
+  {
+    "tableId": "main.mdm.crm_legacy",
+    "tableName": "crm_legacy",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableType": "Delta",
+    "recordCount": 1000,
+    "columnCount": 17,
+    "lastUpdated": "2026-09-07T08:00:00Z",
+    "columns": ["CustomerID","FNAME","LNAME","DOB","EMAIL_ADDR","PHONE_NUM","STREET_ADDR","CITY","STATE_CD","ZIP_CD","COUNTRY","GENDER","MARITAL_STATUS","INCOME_BRACKET","LOYALTY_TIER","ACCOUNT_CREATED","LAST_PURCHASE"]
+  },
+  {
+    "tableId": "main.mdm.pos_loyalty",
+    "tableName": "pos_loyalty",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableType": "Delta",
+    "recordCount": 850,
+    "columnCount": 13,
+    "lastUpdated": "2026-09-06T18:30:00Z",
+    "columns": ["LoyaltyCardNo","MemberName","Phone","PreferredStoreCity","PreferredStoreZip","TierLevel","PointsBalance","JoinDate","LastVisitDate","TotalSpend","PreferredCategory","OptInEmail","OptInSMS"]
+  },
+  {
+    "tableId": "main.mdm.support_tickets",
+    "tableName": "support_tickets",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableType": "Delta",
+    "recordCount": 700,
+    "columnCount": 12,
+    "lastUpdated": "2026-09-07T06:15:00Z",
+    "columns": ["ticket_customer_id","first","last","date_of_birth","contact_email","contact_phone","full_address","city","state","issue_category","priority","created_at"]
+  },
+  {
+    "tableId": "main.mdm.customers_websignup",
+    "tableName": "customers_websignup",
+    "catalog": "main",
+    "schema": "mdm",
+    "tableType": "Delta",
+    "recordCount": 900,
+    "columnCount": 13,
+    "lastUpdated": "2026-09-07T07:45:00Z",
+    "columns": ["user_id","full_name","email","mobile_number","signup_city","signup_zip","signup_country","dob","gender","referral_source","account_status","email_verified","created_at"]
+  },
+  {
+    "tableId": "main.ecommerce.orders_customers",
+    "tableName": "orders_customers",
+    "catalog": "main",
+    "schema": "ecommerce",
+    "tableType": "Delta",
+    "recordCount": 2150,
+    "columnCount": 14,
+    "lastUpdated": "2026-09-06T22:00:00Z",
+    "columns": ["customer_id","first_name","last_name","email_address","phone_number","billing_address","billing_city","billing_state","billing_zip","country_code","dob","preferred_currency","vip_status","registered_at"]
+  },
+  {
+    "tableId": "main.marketing.campaign_contacts",
+    "tableName": "campaign_contacts",
+    "catalog": "main",
+    "schema": "marketing",
+    "tableType": "Delta",
+    "recordCount": 3420,
+    "columnCount": 11,
+    "lastUpdated": "2026-09-05T14:00:00Z",
+    "columns": ["contact_id","full_name","email","mobile","city","state","postal","campaign_source","opt_in_date","segment","engagement_score"]
+  },
+  {
+    "tableId": "main.erp.erp_customers",
+    "tableName": "erp_customers",
+    "catalog": "main",
+    "schema": "erp",
+    "tableType": "Delta",
+    "recordCount": 540,
+    "columnCount": 16,
+    "lastUpdated": "2026-09-04T10:00:00Z",
+    "columns": ["erp_customer_id","given_name","family_name","birth_date","email_id","contact_no","street","city_name","state_name","zip_code","country_iso","account_type","credit_limit","currency","region","active_flag"]
+  },
+  {
+    "tableId": "main.partner.partner_referrals",
+    "tableName": "partner_referrals",
+    "catalog": "main",
+    "schema": "partner",
+    "tableType": "Delta",
+    "recordCount": 210,
+    "columnCount": 9,
+    "lastUpdated": "2026-09-01T08:00:00Z",
+    "columns": ["referral_id","referred_name","referred_email","referred_phone","referred_city","partner_id","referral_date","conversion_status","assigned_rep"]
+  },
+  {
+    "tableId": "main.mobile.app_users",
+    "tableName": "app_users",
+    "catalog": "main",
+    "schema": "mobile",
+    "tableType": "Delta",
+    "recordCount": 1870,
+    "columnCount": 15,
+    "lastUpdated": "2026-09-07T09:00:00Z",
+    "columns": ["app_user_id","display_name","email","phone","city","state","postal_code","date_of_birth","gender","device_type","os_version","app_version","push_token","last_active","signup_date"]
+  },
+  {
+    "tableId": "main.finance.payment_accounts",
+    "tableName": "payment_accounts",
+    "catalog": "main",
+    "schema": "finance",
+    "tableType": "Parquet",
+    "recordCount": 680,
+    "columnCount": 10,
+    "lastUpdated": "2026-09-03T12:00:00Z",
+    "columns": ["account_id","holder_name","email","phone","billing_street","billing_city","billing_state","billing_zip","payment_method","since_date"]
+  }
+]

@@ -1,0 +1,8 @@
+pyspark
+rapidfuzz
+pytest
+pandas
+splink==4.0.17
+streamlit
+databricks-sql-connector
+requests
